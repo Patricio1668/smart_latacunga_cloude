@@ -20,3 +20,16 @@ build/
 Thumbs.db
 .vscode/
 .idea/
+
+# Bases de datos locales (H2)
+*.mv.db
+*.trace.db
+*.h2.db
+
+# Configuración local con credenciales
+application-local.properties
+application-local.yml
+
+# Registros
+*.log
+logs/
