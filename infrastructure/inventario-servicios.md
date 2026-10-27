@@ -2,7 +2,7 @@
 
 Equipo 1 - Infraestructura y servicios cloud (H2)
 
-Este inventario es la entrada para el Equipo 2 (clasificación IaaS/PaaS/SaaS), el Equipo 3 (responsabilidades y seguridad) y el Equipo 4 (arquitectura). Cada servicio tiene un ID para citarlo.
+
 
 | ID | Servicio | Nivel | Función en AgriSmart | Dónde corre | Referencia |
 |---|---|---|---|---|---|
