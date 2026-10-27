@@ -7,10 +7,9 @@
 
 La plataforma **AgriSmart Latacunga** implementa una arquitectura híbrida orientada a eventos **Edge–Fog–Cloud** con servicios hexagonales:
 
-1. **Nivel Edge (Parcela):** 40 nodos fijos ESP32 + LoRa y 4 kits portátiles que capturan datos edafológicos (pH, humedad, temperatura y NPK) cada 15 minutos con almacenamiento local (*store-and-forward*) e inferencia ligera con TinyML.
-2. **Nivel Fog (On-Premise en UTC / Parroquia 11 de Noviembre):** Servidores HP existentes que ejecutan servicios contenerizados para operar sin conexión a internet, garantizando $0\,\%$ de pérdida de datos.
-3. **Nivel Cloud (AWS y servicios externos):** Servicios en la nube encargados de consolidar los datos del estudio cuasiexperimental (240 agricultores durante 12 meses), entrenar modelos de inteligencia artificial (Random Forest y XGBoost), gestionar identidades y exponer las APIs para la aplicación móvil Flutter, el panel web y los aliados institucionales (INIAP y GAD Latacunga).
-
+1. **Nivel Edge (Parcela):** Compuesto por 40 nodos fijos ESP32 + LoRa y 4 kits portátiles que capturan datos edafológicos (pH, humedad, temperatura y NPK) cada 15 minutos. Incorpora estrategias de almacenamiento local (store-and-forward) y capacidades de inferencia ligera mediante TinyML para la detección de anomalías directamente en el terreno agrícola.
+2. **Nivel Fog (On-Premise en UTC / Parroquia 11 de Noviembre):** Soportado sobre los servidores HP existentes, ejecuta servicios contenerizados interconectados para operar de forma totalmente autónoma sin conexión a internet, garantizando un 0 % de pérdida de datos gracias a la persistencia local de series de tiempo.
+3. **Nivel Cloud (AWS y servicios externos):** Capa responsable de consolidar asíncronamente los datos del estudio cuasiexperimental que abarca a 240 agricultores durante los 12 meses de intervención. Aloja el entrenamiento de modelos de inteligencia artificial (Random Forest y XGBoost), la gestión de identidades y la exposición segura de APIs para la aplicación móvil offline-first en Flutter, el panel web de investigadores y los sistemas de aliados estratégicos como el INIAP y el GAD Latacunga.
 ---
 
 ## 2. Tabla de Clasificación IaaS / PaaS / SaaS del Inventario
