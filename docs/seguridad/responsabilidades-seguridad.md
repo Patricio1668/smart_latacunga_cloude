@@ -63,6 +63,23 @@ En la nube, la seguridad se reparte entre el proveedor y quien usa el servicio.
 
 > ℹ️ Los tipos (PaaS/IaaS) deben coincidir con lo definido por los Equipos 1 y 2 en `nube-H1.md` y `nube-H2.md`.
 
+### 3.1 Responsabilidades según el modelo de servicio cloud
+
+Las responsabilidades de seguridad dependen del modelo de servicio contratado. Cuanto mayor sea el nivel de administración que proporciona el proveedor, menor será la cantidad de componentes de infraestructura que deberá gestionar directamente el equipo. Sin embargo, el equipo mantiene responsabilidades sobre los datos, las identidades y las configuraciones que controla.
+
+| Elemento | IaaS | PaaS | SaaS |
+|---|---|---|---|
+| Centro de datos y hardware | Proveedor | Proveedor | Proveedor |
+| Virtualización | Proveedor | Proveedor | Proveedor |
+| Sistema operativo | Equipo | Proveedor | Proveedor |
+| Actualizaciones del sistema operativo | Equipo | Proveedor | Proveedor |
+| Plataforma de ejecución | Equipo | Proveedor | Proveedor |
+| Código de la aplicación | Equipo | Equipo | Proveedor |
+| Configuración de la aplicación | Equipo | Equipo | Compartida, según el servicio |
+| Gestión de usuarios y permisos | Equipo | Equipo | Equipo, según las funciones disponibles |
+| Protección y clasificación de datos | Equipo | Equipo | Equipo |
+| Seguridad física de la infraestructura | Proveedor | Proveedor | Proveedor |
+
 ## 4. 🛡️ Controles de seguridad
 
 Los siguientes controles constituyen el **mínimo exigible** para los componentes del proyecto. Se clasifican por prioridad: **Alta** (implementar antes de cualquier despliegue) y **Media** (implementar durante la operación).
