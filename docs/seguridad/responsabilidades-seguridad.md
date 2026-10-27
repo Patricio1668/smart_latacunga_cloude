@@ -1,4 +1,4 @@
-# 🔐 Responsabilidades y seguridad
+#  Responsabilidades y seguridad
 
 **Proyecto:** Nube inteligente de Latacunga
 **Equipo 3** · Responsabilidades y seguridad
@@ -8,9 +8,13 @@
 
 ---
 
-## 📌 Resumen
+## 📌 Resumen ejecutivo
 
-Este documento define **quién es responsable de qué** entre el proveedor cloud y nuestro equipo, y establece los **controles de seguridad mínimos** que debe cumplir cada componente del proyecto.
+El presente documento establece la distribución de responsabilidades entre el proveedor de servicios en la nube y el equipo del proyecto **Nube inteligente de Latacunga**, conforme al modelo de responsabilidad compartida, con el fin de garantizar que cada componente de la solución cuente con un responsable claramente definido.
+
+Su alcance comprende los cuatro componentes principales del sistema: **backend, base de datos, infraestructura y pruebas**. Para cada uno se determina qué aspectos de seguridad son cubiertos por el proveedor y cuáles corresponden al equipo, tales como la gestión de accesos, la protección de credenciales, la configuración de la base de datos, los respaldos y la actualización de dependencias.
+
+Adicionalmente, se identifican los riesgos más relevantes, se definen los controles de seguridad mínimos con su nivel de prioridad y se formulan recomendaciones técnicas dirigidas al **Equipo 4**, de modo que sirvan como insumo para la toma de decisiones de arquitectura y para la posterior integración en el documento `nube-H2.md`.
 
 ---
 
