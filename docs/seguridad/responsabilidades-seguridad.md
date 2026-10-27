@@ -50,7 +50,7 @@ En la nube, la seguridad se reparte entre el proveedor y quien usa el servicio.
 | Servicio | Tipo | ☁️ Proveedor | 👥 Equipo |
 |----------|------|--------------|-----------|
 | **Backend** | PaaS / IaaS | Servidores, red y disponibilidad de la plataforma | Código, dependencias, configuración y despliegue |
-| **Base de datos H2**Embebida / IaaS (si va en VM) | Proveedor: Almacenamiento y VM (si aplica) | Nuestro equipo: Esquema, contraseñas, respaldos y deshabilitar consola H2 en prod.
+| **Base de datos H2**Embebida / IaaS (si va en VM) | Almacenamiento y VM (si aplica) | Esquema, contraseñas, respaldos y deshabilitar consola H2 en prod.
 | **Infraestructura** | IaaS | Hardware, red física y virtualización | Red, firewall, sistema operativo y parches |
 | **Pruebas** | Entorno propio | Ninguna (si se ejecutan localmente) | Casos de prueba, datos de prueba y ejecución |
 
