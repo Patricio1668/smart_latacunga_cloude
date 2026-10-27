@@ -169,7 +169,6 @@ Los siguientes controles constituyen el **mínimo exigible** para los componente
 8. **DevSecOps:** Integrar herramientas de análisis estático (SAST) en GitLab para bloquear commits que contengan credenciales o vulnerabilidades.
 9. **APIs seguras:** Exigir tokens JWT de corta duración y aplicar limitación de tasa (Rate Limiting) para evitar ataques de denegación de servicio.
 10. **Plan de incidentes:** Establecer un protocolo rápido de notificación y aislamiento del servicio en caso de detectar una brecha de datos.
-11. 
 
 ---
 
