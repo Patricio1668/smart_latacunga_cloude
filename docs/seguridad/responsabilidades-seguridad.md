@@ -1,10 +1,22 @@
-#  Responsabilidades y seguridad
+# 🔐 Responsabilidades y seguridad
 
-**Proyecto:** Nube inteligente de Latacunga
-**Equipo 3** · Responsabilidades y seguridad
+| | |
+|---|---|
+| **Proyecto** | Nube inteligente de Latacunga |
+| **Equipo responsable** | Equipo 3: Responsabilidades y seguridad |
+| **Documento** | `documentos/seguridad/responsabilidades-seguridad.md` |
+| **Versión** | 1.0 |
+| **Estado** | Borrador para revisión |
+| **Fecha** | 27 de octubre de 2026 |
 
-> 📥 Parte de: Equipo 1 (inventario de servicios) y Equipo 2 (clasificación cloud)
-> 📤 Alimenta a: Equipo 4 (decisiones de arquitectura)
+### 🔗 Relación con los demás equipos
+
+| Rol | Equipo | Aporte |
+|-----|--------|--------|
+| 📥 **Insumo** | Equipo 1: Inventario de servicios | Lista de servicios y componentes del proyecto |
+| 📥 **Insumo** | Equipo 2: Clasificación cloud | Tipo de cada servicio (IaaS, PaaS, SaaS) |
+| 📤 **Entrega a** | Equipo 4: Decisiones de arquitectura | Responsabilidades, controles y recomendaciones de seguridad |
+| 🏁 **Integración final** | `documentos/nube-H2.md` | Consolidación del trabajo de todos los equipos |
 
 ---
 
