@@ -1,4 +1,4 @@
-#  Responsabilidades y seguridad
+r#  Responsabilidades y seguridad
 
 **Proyecto:** Nube inteligente de Latacunga
 **Equipo 3** · Responsabilidades y seguridad
