@@ -2,9 +2,6 @@
 
 **Asignatura:** Computación en la Nube / Infraestructura, Seguridad y Gestión de Riesgo en las TI  
 **Proyecto:** Evaluación del impacto de una aplicación móvil con inteligencia artificial en la optimización de la calidad del suelo y la productividad agrícola en Latacunga  
-**Alcance del Equipo 2:** Clasificación de cada servicio del inventario tecnológico de AgriSmart Latacunga según su modelo de servicio en la nube (IaaS, PaaS, SaaS y borde local), justificación técnica alineada con las Decisiones Arquitectónicas (ADR) y comparativa de alternativas.
-
----
 
 ## 1. Resumen Arquitectónico y Criterio de Clasificación
 
