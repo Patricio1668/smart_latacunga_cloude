@@ -136,6 +136,14 @@ Los siguientes controles constituyen el **mínimo exigible** para los componente
 | Actualización de dependencias | Revisar y actualizar librerías con regularidad | Backend | Equipo | Media |
 | Datos de prueba | Usar datos ficticios en pruebas, nunca datos reales | Pruebas | Equipo | Media |
 
+### 4.7 Cumplimiento normativo y legal
+
+| Control | Descripción | Componente | Responsable | Prioridad |
+|---------|-------------|------------|-------------|:---------:|
+| Privacidad por diseño | Recolectar solo los datos estrictamente necesarios de los ciudadanos. | Backend | Equipo | Alta |
+| Registro de auditoría | Mantener bitácoras inalterables de quién accede o modifica datos personales. | Base de datos | Equipo | Alta |
+
+
 ---
 
 ## 5. ⚠️ Riesgos identificados
@@ -156,6 +164,12 @@ Los siguientes controles constituyen el **mínimo exigible** para los componente
 3. **Red:** exponer el backend solo por HTTPS y limitar los puertos abiertos.
 4. **Entornos:** separar desarrollo, pruebas y producción.
 5. **Accesos:** documentar quién tiene permisos de administración y revisarlos periódicamente.
+6. **Cumplimiento legal (LOPDP):** Seleccionar infraestructura que facilite el cumplimiento de la normativa ecuatoriana (derecho al olvido y resguardo seguro de datos).
+7. **Base de datos de producción:** Reemplazar H2 por un motor relacional en modalidad PaaS (ej. PostgreSQL o MySQL) para delegar parches y respaldos al proveedor.
+8. **DevSecOps:** Integrar herramientas de análisis estático (SAST) en GitLab para bloquear commits que contengan credenciales o vulnerabilidades.
+9. **APIs seguras:** Exigir tokens JWT de corta duración y aplicar limitación de tasa (Rate Limiting) para evitar ataques de denegación de servicio.
+10. **Plan de incidentes:** Establecer un protocolo rápido de notificación y aislamiento del servicio en caso de detectar una brecha de datos.
+11. 
 
 ---
 
