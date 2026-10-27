@@ -56,20 +56,61 @@ En la nube, la seguridad se reparte entre el proveedor y quien usa el servicio.
 
 > ℹ️ Los tipos (PaaS/IaaS) deben coincidir con lo definido por los Equipos 1 y 2 en `nube-H1.md` y `nube-H2.md`.
 
----
-
 ## 4. 🛡️ Controles de seguridad
 
-| Área | Control | Prioridad |
-|------|---------|:---------:|
-| **Accesos** | Mínimo privilegio y roles por tipo de usuario | Alta |
-| **Secretos** | Contraseñas y claves fuera del repositorio (`.gitignore`) y en variables de entorno | Alta |
-| **Base de datos** | Consola H2 deshabilitada o protegida; usuario y contraseña propios, no los de por defecto | Alta |
-| **Datos en tránsito** | Cifrado con HTTPS | Alta |
-| **Datos en reposo** | Cifrado cuando el servicio lo permita | Media |
-| **Respaldos** | Copias periódicas de la base de datos | Media |
-| **Registros (logs)** | Guardar accesos y errores, sin datos sensibles | Media |
-| **Dependencias** | Revisar y actualizar librerías con regularidad | Media |
+Los siguientes controles constituyen el **mínimo exigible** para los componentes del proyecto. Se clasifican por prioridad: **Alta** (implementar antes de cualquier despliegue) y **Media** (implementar durante la operación).
+
+### 4.1 Gestión de identidades y accesos
+
+| Control | Descripción | Componente | Responsable | Prioridad |
+|---------|-------------|------------|-------------|:---------:|
+| Mínimo privilegio | Cada usuario y servicio recibe solo los permisos que necesita | Todos | Equipo | Alta |
+| Roles por tipo de usuario | Separar perfiles (administrador, operador, consulta) | Backend | Equipo | Alta |
+| Autenticación robusta | Contraseñas seguras y, cuando sea posible, doble factor (MFA) en cuentas administrativas | Backend / Infraestructura | Equipo | Alta |
+| Revisión periódica de permisos | Revisar y retirar accesos que ya no se necesiten | Todos | Equipo | Media |
+
+### 4.2 Protección de secretos
+
+| Control | Descripción | Componente | Responsable | Prioridad |
+|---------|-------------|------------|-------------|:---------:|
+| Secretos fuera del repositorio | Contraseñas, claves y tokens bloqueados con `.gitignore` | Repositorio | Equipo | Alta |
+| Variables de entorno | Las credenciales se leen del entorno, nunca del código | Backend | Equipo | Alta |
+| Rotación de credenciales | Cambiar claves periódicamente y ante cualquier sospecha de filtración | Todos | Equipo | Media |
+
+### 4.3 Protección de datos
+
+| Control | Descripción | Componente | Responsable | Prioridad |
+|---------|-------------|------------|-------------|:---------:|
+| Cifrado en tránsito | Toda comunicación mediante HTTPS (TLS) | Backend | Equipo | Alta |
+| Cifrado en reposo | Activar el cifrado del almacenamiento cuando el servicio lo permita | Base de datos | Proveedor / Equipo | Media |
+| Clasificación de datos | Identificar qué datos son personales o sensibles y tratarlos según su nivel | Base de datos | Equipo | Media |
+| Respaldos periódicos | Copias automáticas de la base de datos, con prueba de restauración | Base de datos | Equipo | Media |
+
+### 4.4 Base de datos
+
+
+| Control | Descripción | Componente | Responsable | Prioridad |
+|---------|-------------|------------|-------------|:---------:|
+| Consola H2 protegida | Deshabilitada fuera del entorno de desarrollo | Base de datos | Equipo | Alta |
+| Credenciales propias | No usar el usuario y contraseña por defecto | Base de datos | Equipo | Alta |
+| Acceso restringido por red | La base de datos no debe ser accesible desde internet | Infraestructura | Equipo | Alta |
+
+### 4.5 Red e infraestructura
+
+| Control | Descripción | Componente | Responsable | Prioridad |
+|---------|-------------|------------|-------------|:---------:|
+| Firewall y puertos mínimos | Abrir solo los puertos necesarios (por ejemplo, 443) | Infraestructura | Equipo | Alta |
+| Actualizaciones y parches | Mantener sistema operativo y servicios al día | Infraestructura | Equipo | Media |
+| Separación de entornos | Desarrollo, pruebas y producción independientes | Infraestructura | Equipo | Media |
+
+### 4.4 Monitoreo y mantenimiento
+
+| Control | Descripción | Componente | Responsable | Prioridad |
+|---------|-------------|------------|-------------|:---------:|
+| Registros (logs) | Guardar accesos y errores, sin incluir datos sensibles | Backend | Equipo | Media |
+| Alertas de seguridad | Notificar intentos de acceso fallidos o actividad inusual | Backend / Infraestructura | Equipo | Media |
+| Actualización de dependencias | Revisar y actualizar librerías con regularidad | Backend | Equipo | Media |
+| Datos de prueba | Usar datos ficticios en pruebas, nunca datos reales | Pruebas | Equipo | Media |
 
 ---
 
