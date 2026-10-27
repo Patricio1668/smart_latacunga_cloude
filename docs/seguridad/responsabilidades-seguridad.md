@@ -1,22 +1,10 @@
-# 🔐 Responsabilidades y seguridad
+#  Responsabilidades y seguridad
 
-| | |
-|---|---|
-| **Proyecto** | Nube inteligente de Latacunga |
-| **Equipo responsable** | Equipo 3: Responsabilidades y seguridad |
-| **Documento** | `documentos/seguridad/responsabilidades-seguridad.md` |
-| **Versión** | 1.0 |
-| **Estado** | Borrador para revisión |
-| **Fecha** | 27 de octubre de 2026 |
+**Proyecto:** Nube inteligente de Latacunga
+**Equipo 3** · Responsabilidades y seguridad
 
-### 🔗 Relación con los demás equipos
-
-| Rol | Equipo | Aporte |
-|-----|--------|--------|
-| 📥 **Insumo** | Equipo 1: Inventario de servicios | Lista de servicios y componentes del proyecto |
-| 📥 **Insumo** | Equipo 2: Clasificación cloud | Tipo de cada servicio (IaaS, PaaS, SaaS) |
-| 📤 **Entrega a** | Equipo 4: Decisiones de arquitectura | Responsabilidades, controles y recomendaciones de seguridad |
-| 🏁 **Integración final** | `documentos/nube-H2.md` | Consolidación del trabajo de todos los equipos |
+> 📥 Parte de: Equipo 1 (inventario de servicios) y Equipo 2 (clasificación cloud)
+> 📤 Alimenta a: Equipo 4 (decisiones de arquitectura)
 
 ---
 
@@ -26,16 +14,23 @@ El presente documento establece la distribución de responsabilidades entre el p
 
 Su alcance comprende los cuatro componentes principales del sistema: **backend, base de datos, infraestructura y pruebas**. Para cada uno se determina qué aspectos de seguridad son cubiertos por el proveedor y cuáles corresponden al equipo, tales como la gestión de accesos, la protección de credenciales, la configuración de la base de datos, los respaldos y la actualización de dependencias.
 
-Adicionalmente, se identifican los riesgos más relevantes, se definen los controles de seguridad mínimos con su nivel de prioridad y se formulan recomendaciones técnicas dirigidas al **Equipo 4**, de modo que sirvan como insumo para la toma de decisiones de arquitectura y para la posterior integración en el documento `nube-H2.md`.
+Adicionalmente, se identifican los riesgos más relevantes, se definen los controles de seguridad mínimos con su nivel de prioridad y se formulan recomendaciones técnicas dirigidas al **Equipo 4**, de modo que sirvan como insumo para la toma de decisiones de arquitectura y`nube-H2.md`.
 
 ---
 
-## 1. 🎯 Objetivo
+## 1. 🎯 Objetivo general
 
-- Aclarar las responsabilidades del proveedor cloud y del equipo.
-- Identificar los riesgos de seguridad principales.
-- Proponer controles claros para reducirlos.
-- Dar recomendaciones concretas al Equipo 4 para sus decisiones de arquitectura.
+Evaluar las responsabilidades, los riesgos y los controles de seguridad en los servicios cloud, con el fin de proponer recomendaciones que permitan al Equipo 4 tomar decisiones adecuadas para el diseño de una arquitectura segura.
+
+Objetivos específicos
+
+1. Identificar las responsabilidades del proveedor cloud y del equipo encargado de administrar los servicios y datos.
+
+2. Analizar los principales riesgos de seguridad asociados al uso de servicios en la nube, como el acceso no autorizado, la pérdida de información y las configuraciones incorrectas.
+
+3. Proponer controles de seguridad adecuados para prevenir, detectar y reducir los riesgos identificados.
+
+4. Establecer recomendaciones técnicas que orienten al Equipo 4 en la toma de decisiones para diseñar una arquitectura cloud segura y confiable.
 
 ---
 
