@@ -53,6 +53,16 @@ El desarrollo está organizado en los siguientes módulos:
 
 ---
 
+## 📦 Entregables
+
+| Entregable | Descripción | Archivo |
+|---|---|---|
+| **H1** | Fundamentos de Infraestructura en la Nube | [docs/nube-H1.md](docs/nube-H1.md) |
+| **H2** | Arquitectura y Decisiones Técnicas | [docs/nube-H2.md](docs/nube-H2.md) |
+| **H3** | Modelo de Implementación y Límites del Despliegue | [docs/nube-H3.md](docs/nube-H3.md) |
+
+---
+
 ## 💻 Tecnologías Utilizadas
 
 - **Lenguajes:** Python / Node.js / Dart (Flutter) / C++ (Arduino/ESP32)
