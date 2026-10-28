@@ -231,6 +231,8 @@ No todos los componentes de un sistema deben desplegarse en la nube pública. Ma
 
 ## Estación 4 · Actualizar mapa del proyecto 
 
+**Equipo:** Equipo 4
+
 ### Acción a realizar
 
 1. Actualizar documentación del repositorio con el modelo híbrido elegido
