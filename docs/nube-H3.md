@@ -229,7 +229,7 @@ No todos los componentes de un sistema deben desplegarse en la nube pública. Ma
 
 **Evidencia para el README:** Límites del despliegue.
 
-## Estación 4 · Actualizar mapa del proyecto 
+## Estación 4 · Actualizar mapa del proyecto (10 min)
 
 **Equipo:** Equipo 4
 
