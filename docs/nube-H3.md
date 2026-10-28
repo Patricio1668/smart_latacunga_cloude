@@ -119,4 +119,17 @@ Las medidas de protección reducen los riesgos de mantener o desplegar cada comp
 
 ## 6. Conclusión
 
-No todos los componentes de un sistema deben desplegarse en la nube pública. Mantener determinados recursos en el laboratorio o en el edge permite responder a requisitos de latencia, seguridad, privacidad y dependencia del hardware. La arquitectura debe definir explícitamente qué servicios se despliegan en cada entorno y por qué.
+No todos los componentes de un sistema deben desplegarse en la nube pública. La decisión depende de las características de cada uno y debe tomarse con criterios definidos, no por preferencia o comodidad.
+
+| Aspecto | Conclusión |
+|---|---|
+| Seguridad y privacidad | Las credenciales, claves y datos sensibles permanecen en el lab o en un entorno controlado, para reducir el riesgo de exposición. |
+| Latencia y hardware | Los sensores, dispositivos físicos y servicios de respuesta inmediata se mantienen en el edge o en el lab, por su dependencia de conectividad directa y hardware específico. |
+| Disponibilidad | Los servicios críticos deben seguir operando aunque se pierda la conexión a Internet. |
+| Uso de la nube | La nube pública se reserva para componentes que no dependen del hardware local, toleran la latencia y no manejan información crítica, o la manejan cifrada y anonimizada. |
+| Despliegue híbrido | Cuando un componente cumple los criterios solo en parte, se divide: la parte crítica queda en el lab o edge y la no crítica puede ir a la nube. |
+| Protección | Los controles de acceso, el cifrado, la gestión de secretos y las copias de seguridad verificadas son necesarios sin importar dónde se despliegue cada componente. |
+
+### 6.2 Cierre
+
+La arquitectura debe definir de forma explícita qué servicios se despliegan en cada entorno (lab, edge o nube pública) y por qué, aplicando el proceso de decisión de la sección 4 y documentando cada resultado. Así se logra un equilibrio entre seguridad, privacidad, rendimiento, disponibilidad y costo, y se facilita la revisión y mejora de la arquitectura a medida que el proyecto evolucione.
