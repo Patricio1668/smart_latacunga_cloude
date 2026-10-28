@@ -40,17 +40,14 @@
 ## 2. Estación 2 · Elección pública/híbrida
 
 ### 2.1 Modelo elegido: **Híbrido (Lab + Cloud)**
+Para el piloto de AgriSmart Latacunga el grupo adopta un modelo híbrido: el borde (campo o laboratorio) toma las decisiones rápidas y la nube pública aloja la API, los históricos y los modelos del SI.
 
 ### 2.2 Justificación
 
-Se opta por un modelo **híbrido lab+cloud** porque AgriSmart requiere operación continua en zonas con conectividad intermitente. 
+AgriSmart captura datos de sensores agrícolas (humedad del suelo, temperatura, riego) en una zona rural de la sierra ecuatoriana, donde la conectividad puede ser intermitente. Una decisión como activar o detener una electroválvula no puede depender de que el enlace a internet esté disponible ni tolerar la latencia de ida y vuelta a un centro de datos remoto. Por eso esa lógica de control rápido se queda en el borde (gateway o microcontrolador con reglas locales y buffer de datos), que sigue operando aunque se corte la conexión.
+En cambio, el almacenamiento histórico, la API para la aplicación, la analítica y el entrenamiento de modelos (predicción de riego, alertas) requieren elasticidad, durabilidad y servicios gestionados que serían caros y difíciles de operar en infraestructura propia con el presupuesto y las habilidades de un grupo de estudiantes. La nube pública ofrece pago por uso, escalamiento automático, servicios administrados (base de datos, almacenamiento de objetos, monitoreo) y un ecosistema amplio, con lo que el equipo se concentra en el diseño del SI y no en operar servidores.
+Se descarta una nube privada pura por costo y carga operativa (hardware, energía, respaldo, personal) desproporcionados para una prueba. Se descarta una nube pública pura porque dejaría el control del riego sujeto a la conectividad y a la latencia del enlace rural. El híbrido equilibra ambos extremos: resiliencia y baja latencia en campo, escalabilidad y bajo costo inicial en la nube. A cambio, se asume una mayor complejidad de integración (sincronización, autenticación de dispositivos, manejo de datos offline).
 
-- **En el fog/Lab (on-premise):** Se mantiene ChirpStack, MQTT, TimescaleDB y la lógica de alertas. Esto garantiza la captura, validación y notificación local sin depender de internet, algo fundamental para el contexto agrícola de Latacunga.
-- **En la nube pública (AWS):** Se utiliza únicamente para lo que aporta valor centralizado: exposición segura de la API/BFF, almacenamiento consolidado de históricos, autenticación/autorización, panel web/app móvil y evidencias para análisis.
-
-Siguiendo las decisiones del H2, el piloto se implementa con **Amazon ECS Fargate (API+BFF)**, **Amazon RDS PostgreSQL** (en subred privada), y **Application Load Balancer (ALB)** público con TLS. Se descartan **NAT Gateway** y **API Gateway** en esta etapa para ajustarse al presupuesto.
-
-Este modelo equilibra **latencia local**, **resiliencia ante cortes de internet**, **costo controlado** y **aprovechamiento de las habilidades del equipo**. Además, el fog **nunca** escribe directo a RDS: toda la sincronización pasa por la API con **HTTPS/mTLS** e **idempotencia**, manteniendo un único punto de validación.
 
 ### 2.3 Diagrama de arquitectura Lab + Cloud
 
