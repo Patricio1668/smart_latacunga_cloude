@@ -38,7 +38,9 @@
 ---
 
 ## 2. Estación 2 · Elección pública/híbrida
-
+**Asignatura:** Infraestructura, Seguridad y Gestión de Riesgo en las TI  
+**Equipo:** Equipo 2  
+**Fecha:** 27 de octubre de 2026 
 ### 2.1  Modelo elegido: nube híbrida (edge/laboratorio + nube pública)**
 Para el piloto de AgriSmart Latacunga el grupo adopta un modelo híbrido: el borde (campo o laboratorio) toma las decisiones rápidas y la nube pública aloja la API, los históricos y los modelos del SI.
 
