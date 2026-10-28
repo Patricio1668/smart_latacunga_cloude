@@ -130,6 +130,6 @@ No todos los componentes de un sistema deben desplegarse en la nube pública. La
 | Despliegue híbrido | Cuando un componente cumple los criterios solo en parte, se divide: la parte crítica queda en el lab o edge y la no crítica puede ir a la nube. |
 | Protección | Los controles de acceso, el cifrado, la gestión de secretos y las copias de seguridad verificadas son necesarios sin importar dónde se despliegue cada componente. |
 
-### 6.2 Cierre
+### 6.1 Cierre
 
 La arquitectura debe definir de forma explícita qué servicios se despliegan en cada entorno (lab, edge o nube pública) y por qué, aplicando el proceso de decisión de la sección 4 y documentando cada resultado. Así se logra un equilibrio entre seguridad, privacidad, rendimiento, disponibilidad y costo, y se facilita la revisión y mejora de la arquitectura a medida que el proyecto evolucione.
