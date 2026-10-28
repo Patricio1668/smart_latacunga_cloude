@@ -233,7 +233,7 @@ No todos los componentes de un sistema deben desplegarse en la nube pública. Ma
 
 1. Actualizar documentación del repositorio con el modelo híbrido elegido
 2. Crear/actualizar `docs/nube-H3.md` con el contenido de las 4 estaciones
-3. Actualizar referencias en `docs/arquitectura/README.md` y `docs/nube-H2.md` si aplica
+3. Actualizar referencias en `README.md` y `docs/nube-H2.md` si aplica
 4. Realizar commit con mensaje claro
 
 ### Comandos (Git)
