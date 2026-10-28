@@ -56,7 +56,6 @@ El despliegue en la nube pública no es la opción por defecto: cada componente 
 
 ### 4.3 Condiciones para evaluar la nube pública
 
-
 Un componente solo puede desplegarse en la nube si cumple **todas** estas condiciones:
 
 | Condición | Detalle |
