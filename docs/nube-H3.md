@@ -240,7 +240,7 @@ No todos los componentes de un sistema deben desplegarse en la nube pública. Ma
 
 **Evidencia para el README:** Límites del despliegue.
 
-## Estación 4 · Actualizar mapa del proyecto (10 min)
+## 4. Estación 4 · Actualizar mapa del proyecto (10 min)
 
 **Equipo:** Equipo 4
 
@@ -262,7 +262,7 @@ git commit -m "H3 modelo implementacion"
 
 **Estado:** Archivo `docs/nube-H3.md` creado con todas las estaciones completadas.
 
-## Resumen Ejecutivo
+## 5. Resumen Ejecutivo
 
 - **Modelo:** Híbrido Lab + Cloud
 - **Cloud:** AWS con ECS Fargate, RDS PostgreSQL, ALB (sin NAT/API Gateway en piloto)
