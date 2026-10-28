@@ -39,7 +39,7 @@
 
 ## 2. Estación 2 · Elección pública/híbrida
 
-### 2.1 Modelo elegido: **Híbrido (Lab + Cloud)**
+### 2.1  Modelo elegido: nube híbrida (edge/laboratorio + nube pública)**
 Para el piloto de AgriSmart Latacunga el grupo adopta un modelo híbrido: el borde (campo o laboratorio) toma las decisiones rápidas y la nube pública aloja la API, los históricos y los modelos del SI.
 
 ### 2.2 Justificación
@@ -90,7 +90,6 @@ Descendente: la nube pública, umbrales y modelos actualizados al borde.
 Control local: el gateway activa las válvulas sin esperar a la nube.
 Consulta: el productor accede a datos e históricos mediante la API.
 
-**Evidencia para el README:** Decisión (Híbrido Lab + Cloud) + Diagrama Lab + Cloud.
 
 ---
 
