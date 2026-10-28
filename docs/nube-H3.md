@@ -87,11 +87,37 @@ Cuando un componente cumple solo parcialmente los criterios, se divide en dos pa
 
 ## 5. Medidas de protección
 
-- Aplicar permisos de acceso según las funciones de cada usuario.
-- No subir contraseñas, tokens ni claves privadas al repositorio.
-- Proteger los datos sensibles mediante controles de acceso y cifrado.
-- Mantener copias de seguridad protegidas y verificar su recuperación.
-- Documentar los componentes excluidos y justificar cada decisión.
+Las medidas de protección reducen los riesgos de mantener o desplegar cada componente. Se aplican según el tipo de información o recurso que se maneja.
+
+### 5.1 Medidas por área
+
+| Área | Medida | Objetivo |
+|---|---|---|
+| Control de acceso | Asignar permisos según las funciones de cada usuario (principio de mínimo privilegio). | Evitar accesos innecesarios o no autorizados. |
+| Secretos | No subir contraseñas, tokens ni claves privadas al repositorio; usar variables de entorno o un almacén seguro local. | Evitar la exposición de credenciales. |
+| Datos sensibles | Proteger con cifrado (en reposo y en tránsito) y controles de acceso. | Reducir el riesgo de filtraciones. |
+| Copias de seguridad | Mantenerlas protegidas, cifradas y verificar periódicamente su recuperación. | Garantizar la recuperación sin exponer información. |
+| Registros (logs) | Evitar guardar datos sensibles en los registros y restringir quién puede consultarlos. | Evitar filtraciones por logs. |
+| Red | Limitar los puertos y servicios expuestos; separar la red del lab y del edge de la red pública. | Reducir la superficie de ataque. |
+| Documentación | Registrar los componentes excluidos de la nube y justificar cada decisión. | Mantener trazabilidad y claridad. |
+
+### 5.2 Buenas prácticas para el repositorio
+
+| Práctica | Detalle |
+|---|---|
+| Archivo .gitignore | Incluir archivos de configuración local, claves, certificados y archivos .env. |
+| Archivo de ejemplo | Usar un archivo .env.example con nombres de variables sin valores reales. |
+| Revisión antes de subir | Verificar que ningún commit contenga credenciales o datos sensibles. |
+| Rotación de credenciales | Si una credencial se expone, cambiarla de inmediato, aunque se haya borrado del repositorio. |
+
+### 5.3 Verificación periódica
+
+| Verificación | Frecuencia sugerida | Responsable |
+|---|---|---|
+| Revisar permisos de usuarios | Mensual | Administrador del lab |
+| Probar la recuperación de copias de seguridad | Trimestral | Administrador del lab |
+| Revisar que no haya secretos en el repositorio | En cada cambio importante | Equipo de desarrollo |
+| Actualizar la lista de componentes excluidos | Cuando cambie la arquitectura | Equipo del proyecto |
 
 ## 6. Conclusión
 
