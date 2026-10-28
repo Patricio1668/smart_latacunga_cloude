@@ -74,7 +74,7 @@ Cuando un componente cumple solo parcialmente los criterios, se divide en dos pa
 | Crítica | Lab / edge | Captura de datos, control de dispositivos, manejo de secretos. |
 | No crítica | Nube pública | Visualización, documentación, análisis con datos anonimizados. |
 
-### 4.5 Proceso de decisión
+### 4.5 Proceso de Edición
 
 | Paso | Acción | Resultado |
 |---|---|---|
