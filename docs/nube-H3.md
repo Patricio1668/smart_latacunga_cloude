@@ -42,13 +42,24 @@
 **Equipo:** Equipo 2  
 **Fecha:** 27 de octubre de 2026 
 ### 2.1  Modelo elegido: nube híbrida (edge/laboratorio + nube pública)**
-Para el piloto de AgriSmart Latacunga el grupo adopta un modelo híbrido: el borde (campo o laboratorio) toma las decisiones rápidas y la nube pública aloja la API, los históricos y los modelos del SI.
+
+
+AgriSmart Latacunga utilizará una arquitectura híbrida que combina el procesamiento local en el borde de la red (Edge) y en el laboratorio (Lab), con servicios de nube pública de Amazon Web Services (AWS).
+
+El entorno local será responsable de recibir los datos de los sensores, ejecutar las reglas de control que requieran una respuesta inmediata y almacenar temporalmente las lecturas durante las interrupciones de conectividad. La nube pública alojará los servicios de la aplicación, la API y el almacenamiento centralizado de los datos históricos.
+
+### 2.2 Justificación de la decisión
+
 
 ### 2.2 Justificación
 
-AgriSmart captura datos de sensores agrícolas (humedad del suelo, temperatura, riego) en una zona rural de la sierra ecuatoriana, donde la conectividad puede ser intermitente. Una decisión como activar o detener una electroválvula no puede depender de que el enlace a internet esté disponible ni tolerar la latencia de ida y vuelta a un centro de datos remoto. Por eso esa lógica de control rápido se queda en el borde (gateway o microcontrolador con reglas locales y buffer de datos), que sigue operando aunque se corte la conexión.
-En cambio, el almacenamiento histórico, la API para la aplicación, la analítica y el entrenamiento de modelos (predicción de riego, alertas) requieren elasticidad, durabilidad y servicios gestionados que serían caros y difíciles de operar en infraestructura propia con el presupuesto y las habilidades de un grupo de estudiantes. La nube pública ofrece pago por uso, escalamiento automático, servicios administrados (base de datos, almacenamiento de objetos, monitoreo) y un ecosistema amplio, con lo que el equipo se concentra en el diseño del SI y no en operar servidores.
-Se descarta una nube privada pura por costo y carga operativa (hardware, energía, respaldo, personal) desproporcionados para una prueba. Se descarta una nube pública pura porque dejaría el control del riego sujeto a la conectividad y a la latencia del enlace rural. El híbrido equilibra ambos extremos: resiliencia y baja latencia en campo, escalabilidad y bajo costo inicial en la nube. A cambio, se asume una mayor complejidad de integración (sincronización, autenticación de dispositivos, manejo de datos offline).
+La elección del modelo híbrido responde a las condiciones de conectividad de las zonas agrícolas de Latacunga. Una conexión a Internet inestable podría interrumpir la comunicación con los servicios remotos. Por esta razón, las funciones críticas de supervisión y control del riego deben poder ejecutarse localmente, sin depender permanentemente de AWS.
+
+La nube pública permitirá centralizar la información, facilitar su consulta desde la aplicación móvil y disponer de servicios administrados para el procesamiento y almacenamiento de los datos. Además, permitirá ampliar los recursos conforme crezcan las necesidades del proyecto.
+
+Se descarta una implementación exclusivamente local porque puede aumentar las tareas de mantenimiento, respaldo y administración de la infraestructura. También se descarta una implementación exclusivamente en la nube porque las operaciones que requieren respuesta inmediata podrían verse afectadas por la pérdida de conectividad.
+
+Por tanto, el modelo híbrido ofrece un equilibrio entre disponibilidad local, capacidad de procesamiento en la nube, seguridad y control de costos. Su implementación requerirá mecanismos de autenticación, cifrado de las comunicaciones, sincronización de datos y recuperación ante interrupciones.
 
 
 ### 2.3 Diagrama de arquitectura Lab + Cloud
