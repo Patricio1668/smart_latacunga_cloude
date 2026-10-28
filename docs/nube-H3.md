@@ -95,7 +95,7 @@ Consulta: el productor accede a datos e históricos mediante la API.
 
 ---
 
-## 3. Estación 3 · ¿Qué queda fuera de la nube pública ?
+## 3. Estación 3 · Qué queda fuera de la nube pública (15 min)
  
 **Asignatura:** Infraestructura, Seguridad y Gestión de Riesgo en las TI  
 **Equipo:** Equipo 3  
