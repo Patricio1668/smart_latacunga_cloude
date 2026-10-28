@@ -51,8 +51,6 @@ El entorno local será responsable de recibir los datos de los sensores, ejecuta
 ### 2.2 Justificación de la decisión
 
 
-### 2.2 Justificación
-
 La elección del modelo híbrido responde a las condiciones de conectividad de las zonas agrícolas de Latacunga. Una conexión a Internet inestable podría interrumpir la comunicación con los servicios remotos. Por esta razón, las funciones críticas de supervisión y control del riego deben poder ejecutarse localmente, sin depender permanentemente de AWS.
 
 La nube pública permitirá centralizar la información, facilitar su consulta desde la aplicación móvil y disponer de servicios administrados para el procesamiento y almacenamiento de los datos. Además, permitirá ampliar los recursos conforme crezcan las necesidades del proyecto.
@@ -63,38 +61,39 @@ Por tanto, el modelo híbrido ofrece un equilibrio entre disponibilidad local, c
 
 
 ### 2.3 Diagrama de arquitectura Lab + Cloud
+
 ```mermaid
 flowchart LR
-    subgraph CAMPO["Campo / Laboratorio (edge)"]
-        S1[Sensores de humedad,<br/>temperatura, caudal]
-        GW[Gateway edge<br/>reglas locales + buffer]
-        ACT[Actuadores<br/>electroválvulas]
-        S1 --> GW
-        GW -->|decisión rápida| ACT
+    subgraph EDGE["Campo y laboratorio local"]
+        S["Sensores agrícolas"]
+        GW["Gateway / servidor Edge"]
+        CTRL["Reglas locales de control"]
+        BUF[("Buffer de datos local")]
+        ACT["Electroválvulas"]
+
+        S --> GW
+        GW --> CTRL
+        CTRL --> ACT
+        GW --> BUF
     end
 
-    subgraph CLOUD["Nube pública (cuenta del grupo)"]
-        ING[Ingesta IoT<br/>MQTT / HTTPS]
-        API[API backend<br/>AgriSmart]
-        DB[(Base de datos<br/>+ históricos)]
-        OBJ[(Almacenamiento<br/>de objetos)]
-        ML[Modelos y analítica]
-        MON[Monitoreo, logs<br/>y alertas de costo]
-        ING --> API
+    subgraph AWS["Nube pública AWS"]
+        API["API de AgriSmart"]
+        DB[("Base de datos PostgreSQL")]
+        MON["Monitoreo y registros"]
+
         API --> DB
-        API --> OBJ
-        DB --> ML
         API --> MON
     end
 
-    subgraph USR["Usuarios"]
-        APP[App web / móvil<br/>del productor]
-    end
+    APP["Aplicación móvil"]
 
-    GW <-->|TLS + credenciales<br/>por dispositivo| ING
-    APP -->|HTTPS + autenticación| API
-    ML -.->|reglas / umbrales<br/>actualizados| GW
+    BUF -->|"Sincronización cuando hay conexión"| API
+    API -->|"Consulta de datos e históricos"| APP
+    APP -->|"Solicitudes HTTPS"| API
+    API -.->|"Configuración o umbrales autorizados"| GW
 ```
+
 arquitectura híbrida · borde + nube pública
 El control de riego ocurre en el borde; la nube recibe la telemetría y devuelve umbrales actualizados. El monitoreo, los logs y las alertas de gasto cubren toda la cuenta cloud.
 Flujos principales:
