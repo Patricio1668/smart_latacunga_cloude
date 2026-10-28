@@ -50,48 +50,45 @@ Se descarta una nube privada pura por costo y carga operativa (hardware, energí
 
 
 ### 2.3 Diagrama de arquitectura Lab + Cloud
-
 ```mermaid
-graph TB
-    subgraph "LAB/EDGE (On-Premise)"
-        ESP32[Estaciones ESP32 + Sensores]
-        LORAWAN[Gateway LoRaWAN]
-        CHIRP[ChirpStack]
-        MQTT[Broker MQTT]
-        TS[(TimescaleDB - Fog)]
-        ALERTAS[Lógica de Alertas Local]
-        SYNC[Servicio de Sincronización]
+flowchart LR
+    subgraph CAMPO["Campo / Laboratorio (edge)"]
+        S1[Sensores de humedad,<br/>temperatura, caudal]
+        GW[Gateway edge<br/>reglas locales + buffer]
+        ACT[Actuadores<br/>electroválvulas]
+        S1 --> GW
+        GW -->|decisión rápida| ACT
     end
-    
-    subgraph "CLOUD AWS (Público)"
-        ALB[Application Load Balancer]
-        ECS[ECS Fargate - API + BFF]
-        RDS[(RDS PostgreSQL - Privado)]
-        COGNITO[Cognito - Auth]
-        SECRETS[Secrets Manager]
-        CW[CloudWatch]
+
+    subgraph CLOUD["Nube pública (cuenta del grupo)"]
+        ING[Ingesta IoT<br/>MQTT / HTTPS]
+        API[API backend<br/>AgriSmart]
+        DB[(Base de datos<br/>+ históricos)]
+        OBJ[(Almacenamiento<br/>de objetos)]
+        ML[Modelos y analítica]
+        MON[Monitoreo, logs<br/>y alertas de costo]
+        ING --> API
+        API --> DB
+        API --> OBJ
+        DB --> ML
+        API --> MON
     end
-    
-    subgraph "CLIENTES"
-        APP[App Móvil Flutter]
-        WEB[Panel Web]
+
+    subgraph USR["Usuarios"]
+        APP[App web / móvil<br/>del productor]
     end
-    
-    ESP32 --> LORAWAN
-    LORAWAN --> CHIRP
-    CHIRP --> MQTT
-    MQTT --> TS
-    TS --> ALERTAS
-    TS --> SYNC
-    SYNC -->|HTTPS/mTLS /v1/sync/readings| ALB
-    ALB --> ECS
-    ECS --> RDS
-    ECS --> COGNITO
-    ECS --> SECRETS
-    ECS --> CW
-    APP -->|HTTPS| ALB
-    WEB -->|HTTPS| ALB
+
+    GW <-->|TLS + credenciales<br/>por dispositivo| ING
+    APP -->|HTTPS + autenticación| API
+    ML -.->|reglas / umbrales<br/>actualizados| GW
 ```
+arquitectura híbrida · borde + nube pública
+El control de riego ocurre en el borde; la nube recibe la telemetría y devuelve umbrales actualizados. El monitoreo, los logs y las alertas de gasto cubren toda la cuenta cloud.
+Flujos principales:
+Ascendente: el gateway envía telemetría a la nube cuando hay enlace; si no, la guarda en buffer y la sincroniza después.
+Descendente: la nube pública, umbrales y modelos actualizados al borde.
+Control local: el gateway activa las válvulas sin esperar a la nube.
+Consulta: el productor accede a datos e históricos mediante la API.
 
 **Evidencia para el README:** Decisión (Híbrido Lab + Cloud) + Diagrama Lab + Cloud.
 
