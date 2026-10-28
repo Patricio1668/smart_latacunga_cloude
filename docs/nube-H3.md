@@ -26,11 +26,64 @@ Identificar los componentes que deben permanecer en el laboratorio local (lab) o
 
 ## 4. Límites del despliegue
 
-Los componentes que requieran acceso directo al hardware, baja latencia o controles especiales sobre datos sensibles permanecerán en el laboratorio local o en el entorno edge, según sus necesidades.
+El despliegue en la nube pública no es la opción por defecto: cada componente se ubica según sus requisitos de seguridad, latencia, privacidad, dependencia de hardware y costo.
 
-Los servicios que puedan ejecutarse de forma segura y que no dependan de recursos físicos locales podrán evaluarse para su despliegue en la nube pública.
+### 4.1 Criterios de decisión
 
-La decisión final debe considerar los requisitos de seguridad, disponibilidad, rendimiento, privacidad y costo de cada componente.
+| Criterio | Pregunta de evaluación | Si la respuesta es "sí" |
+|---|---|---|
+| Secretos | ¿Maneja credenciales, claves privadas o tokens? | Lab (almacenamiento seguro local) |
+| Datos sensibles | ¿Procesa o almacena datos personales o confidenciales? | Lab / entorno controlado |
+| Hardware | ¿Necesita acceso directo a sensores, dispositivos o controladores? | Edge / lab |
+| Latencia | ¿Requiere respuesta en tiempo real o muy baja latencia? | Edge |
+| Conectividad | ¿Debe operar aunque se caiga Internet? | Edge / lab |
+| Respaldos y registros | ¿Genera copias o logs confidenciales? | Almacenamiento protegido local |
+| Costo | ¿Mueve grandes volúmenes de datos o requiere recursos siempre activos? | Evaluar local o híbrido |
+
+### 4.2 Ubicación por tipo de componente
+
+| Tipo de componente | Lab | Edge | Nube pública |
+|---|---|---|---|
+| Credenciales, claves y secretos | ✔ | ✘ | ✘ |
+| Datos sensibles de usuarios | ✔ | ✘ | Solo cifrados y anonimizados |
+| Sensores y dispositivos físicos | ✘ | ✔ | ✘ |
+| Servicios de baja latencia | ✔ | ✔ | ✘ |
+| Sistemas dependientes de hardware | ✔ | ✔ | ✘ |
+| Copias de seguridad y registros confidenciales | ✔ | ✘ | Solo cifrados |
+| Paneles de visualización y documentación | ✔ | ✘ | ✔ |
+| Análisis posterior con datos anonimizados | ✔ | ✘ | ✔ |
+| Repositorio de código (sin secretos) | ✔ | ✘ | ✔ |
+
+### 4.3 Condiciones para evaluar la nube pública
+
+
+Un componente solo puede desplegarse en la nube si cumple **todas** estas condiciones:
+
+| Condición | Detalle |
+|---|---|
+| Independencia del hardware | No depende de dispositivos ni de la red local. |
+| Sin información crítica | No maneja secretos ni datos sensibles, o estos van cifrados y con acceso restringido. |
+| Tolerancia a la latencia | Funciona correctamente con la comunicación remota. |
+| Tolerancia a desconexión | Una caída de Internet no afecta la operación crítica. |
+| Costo aceptable | El gasto de ejecución y transferencia de datos es razonable. |
+
+### 4.4 Despliegue híbrido
+
+Cuando un componente cumple solo parcialmente los criterios, se divide en dos partes:
+
+| Parte | Ubicación | Ejemplos |
+|---|---|---|
+| Crítica | Lab / edge | Captura de datos, control de dispositivos, manejo de secretos. |
+| No crítica | Nube pública | Visualización, documentación, análisis con datos anonimizados. |
+
+### 4.5 Proceso de decisión
+
+| Paso | Acción | Resultado |
+|---|---|---|
+| 1 | Evaluar el componente con la tabla 4.1. | Si cumple algún criterio, permanece en lab o edge. |
+| 2 | Si no cumple ninguno, evaluarlo con 4.3. | Si cumple todas las condiciones, es candidato a la nube. |
+| 3 | Si el resultado es parcial, aplicar 4.4. | Se divide en parte crítica y no crítica. |
+| 4 | Documentar la decisión. | Queda registrada la ubicación y su justificación. |
 
 ## 5. Medidas de protección
 
