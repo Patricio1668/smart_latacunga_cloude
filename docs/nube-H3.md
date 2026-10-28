@@ -41,7 +41,7 @@
 **Asignatura:** Infraestructura, Seguridad y Gestión de Riesgo en las TI  
 **Equipo:** Equipo 2  
 **Fecha:** 27 de octubre de 2026 
-### 2.1  Modelo elegido: nube híbrida (edge/laboratorio + nube pública)**
+### 2.1  Modelo elegido: nube híbrida (edge/laboratorio + nube pública)
 
 
 AgriSmart Latacunga utilizará una arquitectura híbrida que combina el procesamiento local en el borde de la red (Edge) y en el laboratorio (Lab), con servicios de nube pública de Amazon Web Services (AWS).
@@ -233,11 +233,16 @@ Cuando un componente cumple solo parcialmente los criterios, se divide en dos pa
 | **Revisar que no haya secretos en el repositorio** | En cada cambio importante | Equipo de desarrollo |
 | **Actualizar la lista de componentes excluidos** | Cuando cambie la arquitectura | Equipo del proyecto |
 
+
+
 ### Conclusión
 
-No todos los componentes de un sistema deben desplegarse en la nube pública. Mantener determinados recursos en el laboratorio o en el edge permite responder a requisitos de latencia, seguridad, privacidad y dependencia del hardware. La arquitectura debe definir explícitamente qué servicios se despliegan en cada entorno y por qué.
+La arquitectura híbrida de AgriSmart Latacunga permite distribuir los componentes del sistema según sus requisitos de latencia, conectividad, seguridad y disponibilidad. Los sensores, el gateway y las funciones críticas de control permanecerán en el entorno local, mientras que AWS proporcionará servicios para la API y el almacenamiento centralizado.
 
-**Evidencia para el README:** Límites del despliegue.
+Esta distribución permitirá mantener las funciones críticas durante interrupciones de Internet y facilitará la consulta de información histórica desde la aplicación móvil. La implementación deberá contemplar controles de acceso, cifrado, sincronización segura y copias de seguridad.
+
+**Evidencia para el README:** tabla de exclusiones, criterios de decisión y medidas de protección.
+
 
 ## 4. Estación 4 · Actualizar mapa del proyecto (10 min)
 
