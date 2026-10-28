@@ -93,7 +93,7 @@ Consulta: el productor accede a datos e históricos mediante la API.
 
 ---
 
-## 3. Estación 3 · Qué queda fuera de la nube pública (15 min)
+## 3. Estación 3 · ¿Qué queda fuera de la nube pública ?
  
 **Asignatura:** Infraestructura, Seguridad y Gestión de Riesgo en las TI  
 **Equipo:** Equipo 3  
@@ -227,7 +227,7 @@ No todos los componentes de un sistema deben desplegarse en la nube pública. Ma
 
 **Evidencia para el README:** Límites del despliegue.
 
-## Estación 4 · Actualizar mapa del proyecto (10 min)
+## Estación 4 · Actualizar mapa del proyecto 
 
 ### Acción a realizar
 
