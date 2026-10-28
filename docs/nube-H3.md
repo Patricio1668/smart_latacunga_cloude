@@ -1,9 +1,5 @@
 # H3 · Modelo de implementación (AgriSmart Latacunga)
 
-**Proyecto:** Evaluación del impacto de una aplicación móvil con IA en la calidad del suelo y la productividad agrícola en Latacunga  
-**Asignatura:** Infraestructura, Seguridad y Gestión de Riesgo en las TI  
-**Equipo:** Equipo 4  
-**Fecha:** 27 de octubre de 2026  
 
 ---
 
