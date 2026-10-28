@@ -20,6 +20,163 @@
 ## 1. Estación 1 · Requisitos del piloto
 
 ### 1.1 Requisitos priorizados
+### Introducción .
+AgriSmart Latacunga propone una solución de agricultura de precisión que integra dispositivos ESP32 y LoRaWAN, un nodo local fog, servicios de nube y una aplicación móvil Flutter con funcionamiento sin conexión. Para que el backend sea viable, primero se requiere identificar cada servicio, su función, dónde se ejecutará y de qué otros componentes depende. Este documento desarrolla el inventario a cargo del Grupo 1 en el hito H2. No constituye evidencia de despliegues ya realizados.
+### Objetivo y alcance
+ Objetivo: identificar, describir y priorizar los servicios de infraestructura, plataforma e integración necesarios para el backend de AgriSmart Latacunga, de modo que los demás equipos puedan clasificarlos, analizar su seguridad y justificar las decisiones arquitectónicas.
+- Incluye API, cómputo, persistencia transaccional, archivos, identidad, integración IoT, mensajería, monitoreo, automatización, copias de seguridad y comunicaciones.
+- Distingue servicios en AWS, software propio y componentes locales fog/edge.
+- Registra estados verificables; no incluye aprovisionamiento, compras ni uso de credenciales de cuentas personales.
+###  Referencia de la arquitectura
+Flujo previsto: sensores ESP32/LoRaWAN → gateway y ChirpStack en fog → broker MQTT e ingesta → base de series temporales fog → sincronización segura → servicios cloud/API → aplicación Flutter y panel de investigación. La app conserva datos localmente mediante SQLite. Si Internet falla, la captura y el almacenamiento local deben continuar; la sincronización se reanuda al restablecerse la red.
+Este flujo es una propuesta extraída de la versión 3 del proyecto y debe validarse con el equipo general. El backend cloud no recibe directamente cada lectura LoRaWAN: la arquitectura distingue claramente el gateway y el fog del procesamiento en AWS.
+##  Inventario técnico de servicios
+
+
+| ID | Componente | Tecnología candidata | Función | Ubicación | Estado |
+| --- | --- | --- | --- | --- | --- |
+| S01 | Cómputo backend | AWS EC2 o servicio administrado por decidir | Ejecutar API y tareas de aplicación | Cloud | Propuesto |
+| S02 | API de aplicación | Servicio REST propio; OpenAPI | Exponer datos y operaciones de agricultores/parcelas | Cloud | Por desarrollar |
+| S03 | Base de datos operacional | PostgreSQL en Amazon RDS | Persistir usuarios seudonimizados, parcelas y registros | Cloud | Propuesto |
+| S04 | Objetos y respaldos | Amazon S3 | Guardar datasets, exportaciones, archivos y modelos | Cloud | Propuesto |
+| S05 | Identidad y acceso | Amazon Cognito u OIDC equivalente | Autenticar usuarios y roles con control de acceso | Cloud | Propuesto |
+| S06 | Red y protección | VPC, subredes, SG, TLS y DNS | Aislar componentes y proteger comunicaciones | Cloud | Por diseñar |
+| S07 | Observabilidad cloud | CloudWatch; métricas y logs | Registrar errores, disponibilidad y alertas operativas | Cloud | Propuesto |
+| S08 | CI/CD | GitHub Actions + repositorio | Automatizar pruebas y despliegues versionados | SaaS externo | Por confirmar |
+| S09 | Notificaciones móviles | Firebase Cloud Messaging | Avisos y alertas cuando el teléfono tenga conectividad | Servicio externo | Propuesto |
+| S10 | Correo opcional | Amazon SES u otro | Enviar mensajes de soporte o verificación si aplica | Cloud | Opcional |
+| S11 | Gateway LoRaWAN | Gateway + ChirpStack | Concentrar tramas y gestionar dispositivos | Fog/local | Recurso por verificar |
+| S12 | Mensajería fog | Broker MQTT | Distribuir eventos a consumidores locales | Fog/local | Propuesto |
+| S13 | Series temporales fog | PostgreSQL/TimescaleDB | Guardar lecturas aun sin Internet | Fog/local | Propuesto |
+| S14 | Sincronización | Servicio propio store-and-forward | Replicar lecturas de forma idempotente a nube | Fog↔cloud | Por desarrollar |
+| S15 | Inferencia local | Servicio de modelos IA en fog | Producir recomendaciones disponibles sin Internet | Fog/local | Por validar |
+| S16 | Datos móviles | SQLite en Flutter | Permitir consulta y cola de acciones offline | Dispositivo | Por desarrollar |
+
+Nota: "Propuesto" significa identificado en el planteamiento; "Por desarrollar" no implica que exista; "Por confirmar" requiere evidencia institucional. Los nombres comerciales no equivalen a un inventario contratado.
+
+
+##  Criterios de selección de recursos
+
+Para recomendar tecnologías se consideraron seis criterios: compatibilidad con la arquitectura edge–fog–cloud; tolerancia a conectividad intermitente; seguridad y protección de datos; facilidad de mantenimiento por estudiantes; posibilidad de ampliar un piloto; y costo total de operación. El inventario prioriza la función necesaria antes que la marca del proveedor. No se presupone que una herramienta sea conveniente solo por pertenecer a AWS.
+
+
+| Criterio | Pregunta de evaluación | Implicación para el inventario |
+| --- | --- | --- |
+| Compatibilidad | ¿Se integra con Flutter, MQTT, PostgreSQL y APIs REST? | Preferir formatos y protocolos abiertos. |
+| Conectividad | ¿La pérdida de Internet afecta la captura? | Mantener persistencia en fog y reenvío posterior. |
+| Seguridad | ¿Puede limitarse el acceso por roles y red? | Diseñar IAM, subred privada, TLS y secretos. |
+| Operación | ¿Puede mantenerlo un equipo de curso? | Minimizar componentes y automatizar pruebas. |
+| Costo | ¿Genera cargos fijos o por consumo? | Validar presupuesto y apagar recursos de prueba. |
+| Escalabilidad | ¿Permite ampliar volumen sin rediseño total? | Separar API, base de datos y objetos. |
+
+
+##  Justificación de tecnologías recomendadas
+
+La siguiente tabla explica las recomendaciones del Grupo 1. Son candidatas para la Estación 1 y serán confirmadas o modificadas por los equipos responsables de clasificación y decisión arquitectónica.
+
+
+| Servicio | Recomendación y motivo | Alternativa y condición de elección |
+| --- | --- | --- |
+| Cómputo / API | EC2 con Docker: da control de sistema operativo y despliegue; útil para aprender IaaS y ejecutar un backend propio. | AWS App Runner o ECS/Fargate: menor administración del host, sujeto a cotización y compatibilidad. |
+| Base transaccional | PostgreSQL en RDS: relaciones entre usuarios, parcelas, cultivos y labores; el servicio administra varias tareas de base de datos. | PostgreSQL en EC2/fog: menor dependencia de servicio gestionado, pero más carga de operación y backup. |
+| Archivos y modelos | Amazon S3: almacenamiento de objetos separado del servidor; útil para datasets, archivos y artefactos de modelos. | Sistema de archivos del servidor solo para pruebas temporales; no como repositorio persistente principal. |
+| Identidad | Amazon Cognito: autenticación administrada y federación; evita implementar almacenamiento de contraseñas desde cero. | Proveedor OIDC alternativo si la institución ya dispone de identidad centralizada. |
+| Red y secretos | VPC/subredes y roles IAM; Secrets Manager según presupuesto: reducen exposición de DB y credenciales. | Variables protegidas gestionadas por la plataforma para piloto, nunca secretos en Git. |
+| CI y control de cambios | GitHub y GitHub Actions: revisiones por ramas, pruebas automáticas y trazabilidad de cada hito. | GitLab CI si el curso ya opera allí; no duplicar herramientas. |
+| Observabilidad | CloudWatch para métricas y logs cloud; Grafana local si ya existe en fog. | Prometheus/Grafana autogestionado si el equipo asume mantenimiento y almacenamiento. |
+| Mensajería IoT | ChirpStack más MQTT en fog: integración LoRaWAN y entrega de eventos desacoplados, conforme a la arquitectura prevista. | AWS IoT Core solo si se decide enviar eventos directamente a la nube y se acepta dependencia de red. |
+| Notificaciones | Firebase Cloud Messaging para notificaciones push de Flutter cuando exista conectividad. | Alertas internas de la app para escenarios offline; correo solo cuando el caso de uso lo exija. |
+| Correo | Amazon SES es opcional para invitaciones, restablecimiento u otros correos; no es requisito para captura de sensores. | No desplegar correo en el piloto si no hay caso de uso aprobado. |
+
+
+##  Alcance mínimo viable recomendado
+
+Para un piloto universitario es razonable iniciar con una API REST, PostgreSQL, almacenamiento de objetos, autenticación básica segura, red restringida, repositorio y pruebas automatizadas; integrar gradualmente el nodo fog con MQTT y sincronización. El uso de EC2, RDS y S3 es una propuesta coherente pero no supone presupuesto aprobado. La aplicación no debe depender de conexión permanente para guardar tareas en el dispositivo.
+
+No se recomienda desplegar simultáneamente todos los servicios opcionales. Primero se debe demostrar con un flujo pequeño que una lectura de sensor llega al fog, se conserva durante una desconexión, se sincroniza sin duplicados y aparece en la API.
+
+
+##  Servicios mínimos y dependencias
+
+
+| Prioridad | Servicios | Motivo | Condición para avanzar |
+| --- | --- | --- | --- |
+| P0 crítico | S01, S02, S03, S06 | Sin cómputo, API, datos y red segura no existe backend cloud operable. | Elegir alojamiento y contratos API/datos. |
+| P1 necesario | S04, S05, S07, S08, S14 | Identidad, trazabilidad, archivos y sincronización confiable. | Definir permisos, políticas de backup y pruebas. |
+| P2 complementario | S09, S10 | Mensajería externa condicionada al diseño de experiencia. | Confirmar casos de uso y costo. |
+| Infraestructura local | S11, S12, S13, S15, S16 | Permite funcionamiento rural con desconexiones. | Coordinar con módulos fog, IoT y app. |
+
+Dependencias clave: la API necesita conectividad privada a PostgreSQL, mecanismo de autenticación, secretos y registros; el sincronizador necesita identificación única por lectura, reintentos y reglas de resolución; la notificación push requiere dispositivo registrado y conexión de salida.
+
+
+##  Mapa del backend por ubicación
+
+
+| Zona | Servicios que operan | Interfaz principal | Responsabilidad del sistema |
+| --- | --- | --- | --- |
+| Parcela / edge | ESP32, sensores, radio LoRa, buffer local | Paquetes LoRaWAN | Medición y reenvío; calibración y energía. |
+| Fog institucional/local | ChirpStack, MQTT, TimescaleDB, alertas, sincronizador | MQTT/HTTPS seguro | Persistencia durante cortes y envío posterior. |
+| AWS / cloud | API, RDS, S3, identidad, monitoreo | HTTPS REST y réplica segura | Consolidación, acceso y administración central. |
+| Cliente | Flutter, SQLite | HTTPS + caché local | Uso offline y sincronización eventual. |
+
+
+##  Validación de recursos existentes
+
+El documento fuente menciona servidores HP existentes y tecnologías planificadas, pero no aporta evidencia de que estén aprovisionadas para la clase. Este registro debe completarse con el responsable del curso antes de afirmar que un servicio existe.
+
+
+| Recurso | Estado actual verificable | Evidencia que debe adjuntarse | Responsable |
+| --- | --- | --- | --- |
+| Repositorio GitHub del curso | No confirmado | URL del repositorio y captura de README | Coordinación H1 |
+| Cuenta AWS del grupo | No confirmado | Identificador de cuenta parcial y roles, sin secretos | Coordinación cloud |
+| Instancia EC2 / servicio API | No confirmado | Inventario de recursos; no mostrar IP privada sensible | Infraestructura |
+| RDS PostgreSQL | No confirmado | Captura de estado y tipo de instancia, sin claves | Datos |
+| Bucket S3 | No confirmado | Inventario de buckets y política revisada | Datos |
+| Gateway LoRaWAN y servidores HP | Mencionados en propuesta; operación no comprobada | Acta/inventario institucional y prueba básica | Equipo IoT/fog |
+| CI y monitoreo | No confirmado | Workflow y captura de ejecución o tablero | DevOps |
+
+
+##  Seguridad y riesgos del inventario
+
+
+| Riesgo | Control propuesto | Evidencia futura |
+| --- | --- | --- |
+| Credenciales expuestas en repositorio | Usar roles, gestores de secretos y .gitignore; prohibir access keys en capturas. | Revisión de repositorio y política IAM. |
+| Base de datos públicamente accesible | RDS en subred privada, SG restrictivos y cifrado. | Diagrama de red y configuración sin secretos. |
+| Pérdida de lecturas ante cortes | Colas locales, reintentos idempotentes, backup y pruebas de reconexión. | Prueba de desconexión/reenvío. |
+| Costos inesperados de AWS | Presupuesto, alertas, etiquetas y apagado de recursos no esenciales. | Captura de presupuesto y estimación. |
+| Datos personales y geográficos | Acceso por roles, seudonimización, minimización y consentimiento. | Política de datos aprobada. |
+
+Riesgo residual: las medidas propuestas reducen la exposición, pero no sustituyen auditorías de seguridad, verificación de respaldos ni pruebas en campo.
+
+
+##  Actividades y evidencias
+
+
+| Paso | Actividad | Producto verificable |
+| --- | --- | --- |
+| 1 | Revisar arquitectura y listar componentes | Inventario S01–S16 y alcance. |
+| 2 | Validar dependencias y ubicación | Mapa por edge/fog/cloud/cliente. |
+| 3 | Consultar recursos que realmente existen | Tabla de estados con evidencias o pendientes. |
+| 4 | Registrar riesgos y acuerdos | Riesgos, controles y notas para equipos 2–4. |
+| 5 | Entregar fragmento aprobado a docs/nube-H2.md | Commit y actualización del README. |
+| 6 | Socializar a los otros equipos | Acta o comentario de revisión y cambios. |
+
+Capturas sugeridas: estructura del repositorio, arquitectura del proyecto, inventario cloud obtenido sin secretos y commit que incorpora el apartado. No se deben fabricar capturas ni declarar recursos operativos sin validación.
+
+
+##  Entrega a los otros equipos
+
+
+| Equipo receptor | Información entregada | Decisión que deberá completar |
+| --- | --- | --- |
+| Grupo 2 Modelos cloud | S01–S16, ubicación y tecnología candidata | Clasificar servicios concretos IaaS/PaaS/SaaS y justificar. |
+| Grupo 3 Seguridad | Datos almacenados, interfaces, zonas y riesgos | Responsabilidades compartidas, identidad y manejo de secretos. |
+| Grupo 4 Arquitectura | Dependencias P0/P1 y alternativas | Decisión versionada de alojamiento de API y base de datos. |
+
+Acuerdo recomendado: el inventario funciona como lista base controlada por versiones. Ningún equipo debe sustituir un componente sin comunicarlo y actualizar las dependencias.
+
+
 
 | Requisito | Descripción | Peso (1-5) | Justificación |
 |---|---|---|---|
@@ -32,8 +189,6 @@
 | **Observabilidad** | Logs/métricas básicos | 3 | Necesario para monitoreo con CloudWatch en el alcance del piloto. |
 
 > **Priorización:** Latencia + Disponibilidad de datos > Presupuesto + Habilidades del grupo + Seguridad > Escalabilidad + Observabilidad
-
-**Evidencia para el README:** Requisitos priorizados (tabla 1.1).
 
 ---
 
