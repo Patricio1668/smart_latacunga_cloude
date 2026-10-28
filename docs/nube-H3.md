@@ -9,15 +9,15 @@
 
 ## Índice
 
-- [1. Estación 1 · Requisitos del piloto](#1-estación-1--requisitos-del-piloto-15-min)
-- [2. Estación 2 · Elección pública/híbrida](#2-estación-2--elección-públicahíbrida-20-min)
+- [1. Estación 1 · Requisitos del piloto (15 min)](#1-estación-1--requisitos-del-piloto-15-min)
+- [2. Estación 2 · Elección pública/híbrida (20 min)](#2-estación-2--elección-públicahíbrida-20-min)
 - [3. Estación 3 · Qué queda fuera de la nube pública (15 min)](#3-estación-3--qué-queda-fuera-de-la-nube-pública-15-min)
 - [4. Estación 4 · Actualizar mapa del proyecto (10 min)](#4-estación-4--actualizar-mapa-del-proyecto-10-min)
 - [5. Resumen Ejecutivo](#5-resumen-ejecutivo)
 
 ---
 
-## 1. Estación 1 · Requisitos del piloto
+## 1. Estación 1 · Requisitos del piloto (15 min)
 
 ### 1.1 Requisitos priorizados
 
@@ -37,7 +37,7 @@
 
 ---
 
-## 2. Estación 2 · Elección pública/híbrida
+## 2. Estación 2 · Elección pública/híbrida (20 min)
 **Asignatura:** Infraestructura, Seguridad y Gestión de Riesgo en las TI  
 **Equipo:** Equipo 2  
 **Fecha:** 27 de octubre de 2026 
