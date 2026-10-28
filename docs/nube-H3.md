@@ -66,8 +66,7 @@ Un componente solo puede desplegarse en la nube si cumple **todas** estas condic
 | Tolerancia a desconexión | Una caída de Internet no afecta la operación crítica. |
 | Costo aceptable | El gasto de ejecución y transferencia de datos es razonable. |
 
-### 4.4 Despliegue híbrido
-
+### 4.4  Despliegue híbrido
 Cuando un componente cumple solo parcialmente los criterios, se divide en dos partes:
 
 | Parte | Ubicación | Ejemplos |
