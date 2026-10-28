@@ -17,7 +17,7 @@
 
 ---
 
-## 1. Estación 1 · Requisitos del piloto (15 min)
+## 1. Estación 1 · Requisitos del piloto
 
 ### 1.1 Requisitos priorizados
 
@@ -37,7 +37,7 @@
 
 ---
 
-## 2. Estación 2 · Elección pública/híbrida (20 min)
+## 2. Estación 2 · Elección pública/híbrida
 
 ### 2.1 Modelo elegido: **Híbrido (Lab + Cloud)**
 
