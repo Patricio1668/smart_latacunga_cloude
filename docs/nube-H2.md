@@ -11,6 +11,29 @@ La plataforma **AgriSmart Latacunga** implementa una arquitectura híbrida orien
 2. **Nivel Fog (On-Premise en UTC / Parroquia 11 de Noviembre):** Soportado sobre los servidores HP existentes, ejecuta servicios contenerizados interconectados para operar de forma totalmente autónoma sin conexión a internet, garantizando un 0 % de pérdida de datos gracias a la persistencia local de series de tiempo.
 3. **Nivel Cloud (AWS y servicios externos):** Capa responsable de consolidar asíncronamente los datos del estudio cuasiexperimental que abarca a 240 agricultores durante los 12 meses de intervención. Aloja el entrenamiento de modelos de inteligencia artificial (Random Forest y XGBoost), la gestión de identidades y la exposición segura de APIs para la aplicación móvil offline-first en Flutter, el panel web de investigadores y los sistemas de aliados estratégicos como el INIAP y el GAD Latacunga.
 ---
+# ÍNDICE GENERAL — ENTREGABLE H2: AGRISMART LATACUNGA
+
+1. [Resumen Arquitectónico y Criterio de Clasificación](#1-resumen-arquitectónico-y-criterio-de-clasificación)
+2. [Tabla de Clasificación IaaS / PaaS / SaaS del Inventario](#2-tabla-de-clasificación-iaas--paas--saas-del-inventario)
+3. [Justificación Técnica de la Distribución de Modelos](#3-justificación-técnica-de-la-distribución-de-modelos)
+4. [Comparativa Técnica de Alternativas por Subsistema](#4-comparativa-técnica-de-alternativas-por-subsistema)
+   - [4.1. Base de Datos Relacional en la Nube (Consolidación del Estudio)](#41-base-de-datos-relacional-en-la-nube-consolidación-del-estudio)
+   - [4.2. Ingesta IoT y Base de Datos de Series de Tiempo](#42-ingesta-iot-y-base-de-datos-de-series-de-tiempo)
+   - [4.3. Identidad, Autenticación y Autorización](#43-identidad-autenticación-y-autorización)
+   - [4.4. Exposición de APIs y Ejecución de Servicios Backend](#44-exposición-de-apis-y-ejecución-de-servicios-backend)
+   - [4.5. Observabilidad y Monitoreo de la Plataforma](#45-observabilidad-y-monitoreo-de-la-plataforma)
+5. [Estación 3: Administración y Seguridad Cloud — AgriSmart](#estación-3--administración-y-seguridad-cloud--agrismart)
+   - [5.1. Responsabilidad compartida en la nube](#1-responsabilidad-compartida-en-la-nube)
+   - [5.2. Matriz general de responsabilidades](#2-matriz-general-de-responsabilidades)
+   - [5.3. Diagrama de responsabilidad compartida](#3-diagrama-de-responsabilidad-compartida)
+   - [5.4. Administración según el modelo cloud](#4-administración-según-el-modelo-cloud)
+   - [5.5. Administración de identidades y permisos](#5-administración-de-identidades-y-permisos)
+   - [5.6. Administración y protección de la base de datos](#6-administración-y-protección-de-la-base-de-datos)
+   - [5.7. Configuraciones y actualizaciones](#7-configuraciones-y-actualizaciones)
+   - [5.8. Administración de secretos](#8-administración-de-secretos)
+   - [5.9. Resumen de controles de seguridad](#9-resumen-de-controles-de-seguridad)
+   - [5.10. Acuerdo de responsabilidades de AgriSmart](#10-acuerdo-de-responsabilidades-de-agrismart)
+6. [Conclusiones para la Integración del H2](#5-conclusiones-para-la-integración-del-h2)
 
 ## 2. Tabla de Clasificación IaaS / PaaS / SaaS del Inventario
 
