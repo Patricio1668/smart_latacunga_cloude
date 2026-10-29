@@ -58,19 +58,66 @@ A continuación se clasifica cada servicio del inventario del backend y de la in
 
 ## 3. Justificación Técnica de la Distribución de Modelos
 
-La elección combinada de **On-Premise (Fog) + IaaS + PaaS + SaaS** responde a cuatro restricciones reales del proyecto:
+### 3. Justificación Técnica de la Distribución de Modelos
 
-1. **Restricción presupuestaria estricta ($85\text{ USD/mes}$ para nube):**
-   El presupuesto total para servicios AWS durante los 24 meses del proyecto es de $2\,000\text{ USD}$. El uso de servicios PaaS de pago por uso (API Gateway, Cognito, S3) junto con instancias acotadas de RDS y EC2 mantiene el costo mensual dentro del límite, evitando pagar licencias SaaS empresariales o clústeres sobredimensionados.
-2. **Equipo pequeño y rotación de estudiantes (Módulos M1–M10):**
-   Los estudiantes de Sistemas de Información y Software cumplen 240 horas de prácticas preprofesionales y rotan por periodos académicos. Según el **ADR-002** y el **ADR-012**, delegar la administración de la base de datos (RDS), la identidad (Cognito) y la pasarela de APIs (API Gateway) al modelo **PaaS** reduce la carga operativa y evita caídas por errores de configuración manual de servidores.
-3. **Tolerancia a la desconexión rural (Riesgo crítico):**
-   Una arquitectura $100\,\%$ en la nube pública (IaaS/PaaS puro) fracasaría ante los cortes de internet de la zona rural de Latacunga. Por ello, el **ADR-001** mantiene la ingesta crítica, el broker MQTT y TimescaleDB en el **Nodo Fog local**, usando la nube pública únicamente para consolidación asíncrona (mediante el sincronizador con *retry* y *circuit breaker*), entrenamiento pesado y acceso externo.
-   
-5. **Cumplimiento de la LOPDP y Seguridad (ADR-010):**
-   El uso de servicios PaaS especializados en seguridad (Amazon Cognito con OAuth 2.1/PKCE y AWS Secrets Manager) permite aplicar cifrado en tránsito (TLS/mTLS), cifrado en reposo y seudonimización de los datos personales de los 240 agricultores sin construir criptografía ni sistemas de autenticación desde cero.
+La elección combinada de **On-Premise (Fog) + IaaS + PaaS + SaaS** responde a cinco restricciones operativas, financieras y arquitectónicas del proyecto AgriSmart Latacunga:
 
----
+1. **Restricción presupuestaria estricta (85 USD/mes para nube):**
+* El presupuesto total del proyecto es de 25.000 USD, de los cuales únicamente 2.000 USD están asignados a servicios en la nube de AWS durante los 24 meses de ejecución (aproximadamente 85 USD mensuales).
+
+
+* La adopción de servicios **PaaS** de pago por uso o con amplias capas gratuitas (Amazon API Gateway, Amazon Cognito para los 240 agricultores e investigadores, y almacenamiento en Amazon S3) junto con instancias acotadas de Amazon RDS y AWS EC2 mantiene el gasto mensual dentro del techo presupuestario.
+
+
+* Asimismo, mantener la ingesta intensiva de los 40 nodos fijos (que reportan variables edafológicas cada 15 minutos) y las herramientas de monitoreo (Prometheus, Grafana y OpenTelemetry) en contenedores sobre los servidores HP existentes evita pagar licencias **SaaS** comerciales o costos por millón de mensajes en la nube.
+
+
+
+
+2. **Equipo de desarrollo reducido y alta rotación estudiantil (Módulos M1–M10):**
+* El sistema es construido y operado por un equipo docente junto a 30 estudiantes de Sistemas de Información y Software que cumplen 240 horas de prácticas preprofesionales organizadas en 10 módulos técnicos (M1–M10), lo que genera un riesgo alto de rotación por periodos académicos.
+
+
+* De acuerdo con el **ADR-002** y el **ADR-012**, se descarta una arquitectura de microservicios complejos y se delegan las tareas críticas de administración de infraestructura al modelo **PaaS** (aprovisionamiento, parches de seguridad, respaldos automatizados en RDS y gestión de identidades en Cognito).
+
+
+* Esto reduce la carga operativa de bajo nivel y previene caídas por errores de configuración manual, mientras que el uso de **SaaS** con GitHub Actions (**ADR-012**) y contratos API-First (**ADR-009**) estandariza la integración continua entre los distintos grupos de estudiantes.
+
+
+
+
+3. **Tolerancia a la desconexión rural e integridad del dato (Riesgo crítico):**
+* La conectividad intermitente en las zonas rurales de Latacunga (parroquia 11 de Noviembre) está catalogada como un riesgo de probabilidad alta e impacto alto en el estudio.
+
+
+* Una arquitectura **100 % en la nube pública** (IaaS o PaaS puro) fracasaría ante los cortes de internet, impidiendo recibir alertas oportunas y provocando pérdida de lecturas edafológicas.
+
+
+* Por ello, el **ADR-001**, el **ADR-003**, el **ADR-004** y el **ADR-005** mantienen el servidor de red LoRaWAN (ChirpStack), el broker de eventos MQTT y la base de series de tiempo TimescaleDB en el **Nodo Fog local (On-Premise)** para garantizar un **0 % de pérdida de datos** (apoyado en patrones *store-and-forward*, *Transactional Outbox* y registro inmutable) y al menos un 95 % de lecturas recibidas.
+
+
+* La nube pública se reserva para la consolidación asíncrona mediante el sincronizador fog–nube (que aplica *retry* con *backoff* y *jitter*, *circuit breaker* y *dead letter queue*), la exposición de la API para clientes externos y el almacenamiento histórico del estudio.
+
+
+
+
+4. **Desacoplamiento del ciclo de vida de Inteligencia Artificial y portabilidad (Edge–Fog–Cloud):**
+* El **ADR-008** divide estratégicamente las cargas de trabajo de IA según la capacidad de cómputo de cada capa: detección de anomalías ligeras con TinyML en los nodos ESP32 (Edge), inferencia inmediata con modelos Random Forest y XGBoost en el servidor local para emitir recomendaciones sin internet (Fog), y entrenamiento pesado junto al registro de modelos (*champion/challenger*) en AWS (Cloud).
+
+
+* El uso combinado de **IaaS/CaaS** con contenedores Docker (**ADR-012**) y almacenamiento en **Amazon S3** permite entrenar y validar los modelos en la nube (buscando una exactitud $\ge 85\%$ en clasificación y $R^2 \ge 0,80$ en regresión frente al laboratorio de suelos de la UTC) y luego descargar el modelo aprobado hacia el nodo fog de forma transparente y reproducible.
+
+
+
+
+5. **Cumplimiento de la LOPDP, ética y seguridad multicapa (ADR-010):**
+* La investigación recolecta datos personales, productivos y de ubicación de 240 agricultores (120 del grupo de tratamiento y 120 del grupo de control), lo que exige el cumplimiento estricto de la Ley Orgánica de Protección de Datos Personales (LOPDP) antes del levantamiento de la línea base.
+
+
+* Apoyarse en servicios **PaaS** especializados en seguridad como **Amazon Cognito** (OAuth 2.1 / OIDC con PKCE) y **AWS Secrets Manager** permite implementar controles robustos de autenticación, rotación de credenciales, cifrado en reposo y cifrado en tránsito (HTTPS y mTLS entre el nodo fog y la nube) sin tener que programar sistemas criptográficos ni gestores de identidad desde cero.
+
+
+* Esta separación facilita además la minimización y seudonimización exigidas por el protocolo ético, vinculando las lecturas agrícolas en RDS y TimescaleDB únicamente a un código identificador mientras los datos sensibles (nombre, cédula y teléfono) permanecen resguardados por separado bajo acceso exclusivo del investigador principal.
 
 ## 4. Comparativa Técnica de Alternativas por Subsistema
 
