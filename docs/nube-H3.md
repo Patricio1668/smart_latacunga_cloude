@@ -98,15 +98,14 @@ Flujos principales:
 - **Consulta:** el productor revisa los datos y el histórico a través de la API.
 
 ---
-## 3. Estación 3 · Qué queda fuera de la nube pública (15 min)
- 
+## 3. Estación 3 · Qué queda fuera de la nube pública
+
 **Asignatura:** Infraestructura, Seguridad y Gestión de Riesgo en las TI  
 **Equipo:** Equipo 3  
 **Fecha:** 27 de octubre de 2026 
 
 ### 1. Objetivo
-Identificar los componentes que deben permanecer en el laboratorio local (lab) o en el borde de la red (edge), evitando su despliegue en la nube pública por razones de seguridad, latencia, privacidad y disponibilidad.
-
+Definir componentes que se quedan en lab/edge y por qué.
 ### 2. Lista de exclusiones
 
 | Componente | Ubicación propuesta | Justificación |
