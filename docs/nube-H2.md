@@ -273,9 +273,41 @@ El equipo de AgriSmart establece que la seguridad cloud será gestionada mediant
 
 Las responsabilidades deberán documentarse y revisarse cuando cambie el modelo cloud, el proveedor o la arquitectura del sistema.
 
+11. Gestión de incidentes y continuidad operativa
 
+La gestión de incidentes permite establecer los pasos que debe seguir el equipo de AgriSmart cuando se presenta un problema de seguridad o una interrupción del servicio. Su objetivo es reducir los daños, proteger la información y recuperar el funcionamiento del sistema de forma segura.
 
-## 11. Conclusiones para la Integración del H2
+11.1. Flujo de respuesta ante incidentes
+
+El siguiente diagrama representa el procedimiento que deberá seguir el equipo ante un incidente de seguridad.
+
+flowchart TD
+    A(["Inicio: detección de un incidente"]) --> B["Identificar y evaluar el problema"]
+    B --> C{"¿Existe un riesgo para los datos o el sistema?"}
+    C -->|Sí| D["Contener el incidente y restringir accesos"]
+    C -->|No| E["Registrar y analizar el problema"]
+    D --> F["Proteger los datos y cambiar credenciales comprometidas"]
+    F --> G{"¿Se requiere recuperar información?"}
+    G -->|Sí| H["Restaurar desde una copia de seguridad verificada"]
+    G -->|No| I["Corregir la causa del incidente"]
+    H --> I
+    I --> J["Verificar el funcionamiento y la seguridad"]
+    J --> K["Documentar el incidente y las medidas aplicadas"]
+    E --> K
+    K --> L(["Fin: sistema revisado y acciones registradas"])
+
+    classDef inicio fill:#d1fae5,stroke:#059669,color:#064e3b
+    classDef proceso fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
+    classDef decision fill:#fef3c7,stroke:#d97706,color:#78350f
+    classDef fin fill:#d1fae5,stroke:#059669,color:#064e3b
+
+    class A,L inicio
+    class B,D,E,F,H,I,J,K proceso
+    class C,G decision
+
+Interpretación: ante un incidente, el equipo deberá identificar el problema, contener los riesgos, proteger las credenciales cuando corresponda y recuperar la información si es necesario. Antes de dar por resuelto el incidente, deberá comprobar que el sistema funciona correctamente y documentar las acciones realizadas.
+
+## 12. Conclusiones para la Integración del H2
 
 1. **Predominio estratégico de PaaS en la nube pública:** En la capa Cloud (AWS), el modelo **PaaS** (Amazon RDS, API Gateway, Cognito, Secrets Manager, S3) es la opción técnica más adecuada para AgriSmart Latacunga porque maximiza la disponibilidad y la seguridad reduciendo al mínimo la carga administrativa del equipo docente y estudiantil, manteniéndose dentro del presupuesto de $85\text{ USD/mes}$.
 2. **Contenerización sobre IaaS y On-Premise para portabilidad:** El uso de contenedores Docker (sobre servidores HP en el nivel Fog y sobre instancias de cómputo en AWS) permite mantener una arquitectura basada en servicios y eventos (**ADR-002**) altamente portable sin caer en la complejidad operativa de un clúster de microservicios ni en el bloqueo de proveedor (*vendor lock-in*) en la lógica de negocio e inferencia de IA.
