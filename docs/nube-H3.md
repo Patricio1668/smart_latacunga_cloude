@@ -225,16 +225,26 @@ Cuando un componente cumple solo parcialmente los criterios, se divide en dos pa
 | **Revisar que no haya secretos en el repositorio** | En cada cambio importante | Equipo de desarrollo |
 | **Actualizar la lista de componentes excluidos** | Cuando cambie la arquitectura | Equipo del proyecto |
 
+## 6. Matriz de responsabilidades
 
+Para mantener la seguridad de AgriSmart Latacunga, se deben definir las responsabilidades de los integrantes encargados de administrar la infraestructura local, los dispositivos y los servicios en la nube.
+
+| Elemento | Responsable | Actividad principal |
+|---|---|---|
+| Sensores ESP32 y gateway LoRaWAN | Responsable de hardware | Verificar conexiones, alimentación, funcionamiento y actualizaciones. |
+| ChirpStack y broker MQTT | Administrador de infraestructura | Configurar accesos, supervisar servicios y revisar registros. |
+| TimescaleDB local | Administrador de base de datos | Controlar permisos, realizar respaldos y verificar la integridad de los datos. |
+| Sincronización con AWS | Responsable de integración | Controlar reintentos, evitar duplicaciones y verificar la sincronización. |
+| Credenciales y secretos | Responsable de seguridad | Restringir accesos y gestionar la renovación de credenciales. |
+| Servicios desplegados en AWS | Administrador de nube | Configurar permisos, cifrado, supervisión y disponibilidad. |
+
+Los responsables podrán asignarse según la organización del equipo de trabajo. Cada actividad deberá documentarse para facilitar el seguimiento y la atención de incidentes.
 
 ### Conclusión
 
 La arquitectura híbrida de AgriSmart Latacunga permite distribuir los componentes del sistema según sus requisitos de latencia, conectividad, seguridad y disponibilidad. Los sensores, el gateway y las funciones críticas de control permanecerán en el entorno local, mientras que AWS proporcionará servicios para la API y el almacenamiento centralizado.
 
-Esta distribución permitirá mantener las funciones críticas durante interrupciones de Internet y facilitará la consulta de información histórica desde la aplicación móvil. La implementación deberá contemplar controles de acceso, cifrado, sincronización segura y copias de seguridad.
-
-**Evidencia para el README:** tabla de exclusiones, criterios de decisión y medidas de protección.
-
+Esta distribución permitirá mantener las funciones críticas durante interrupciones de Internet y facilitará la consulta de información histórica desde la aplicación móvil. La implementación deberá contemplar controles de acceso, cifrado, sincronización segura y copias de seguridad
 
 ## 4. Estación 4 · Actualizar mapa del proyecto (10 min)
 
