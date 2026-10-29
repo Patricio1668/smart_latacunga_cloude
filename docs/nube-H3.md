@@ -36,25 +36,23 @@
 ## 2. Estación 2 · Elección pública/híbrida (20 min)
 **Asignatura:** Infraestructura, Seguridad y Gestión de Riesgo en las TI  
 **Equipo:** Equipo 2  
-**Fecha:** 27 de octubre de 2026 
-### 2.1  Modelo elegido: nube híbrida (edge/laboratorio + nube pública)
+**Fecha:** 27 de octubre de 2026
 
+### 2.1 Modelo seleccionado: nube híbrida (edge/laboratorio + nube pública)
 
-AgriSmart Latacunga utilizará una arquitectura híbrida que combina el procesamiento local en el borde de la red (Edge) y en el laboratorio (Lab), con servicios de nube pública de Amazon Web Services (AWS).
+AgriSmart Latacunga funcionará sobre una arquitectura híbrida: el procesamiento local se hará en el borde de la red (Edge) y en el laboratorio (Lab), y se apoyará en los servicios de nube pública de Amazon Web Services (AWS).
 
-El entorno local será responsable de recibir los datos de los sensores, ejecutar las reglas de control que requieran una respuesta inmediata y almacenar temporalmente las lecturas durante las interrupciones de conectividad. La nube pública alojará los servicios de la aplicación, la API y el almacenamiento centralizado de los datos históricos.
+La capa local recibirá la información de los sensores, aplicará las reglas de control que deban reaccionar al instante y guardará las lecturas de forma temporal cuando se corte la conexión. En AWS se alojarán los servicios de la aplicación, la API y el almacenamiento centralizado del histórico de datos.
 
 ### 2.2 Justificación de la decisión
 
+La conectividad de las zonas agrícolas de Latacunga es el factor que inclina la decisión hacia el modelo híbrido. Si el acceso a Internet es inestable, la comunicación con los servicios remotos puede interrumpirse. Por eso, la supervisión y el control del riego, que son funciones críticas, tienen que correr en local y no depender de AWS de manera continua.
 
-La elección del modelo híbrido responde a las condiciones de conectividad de las zonas agrícolas de Latacunga. Una conexión a Internet inestable podría interrumpir la comunicación con los servicios remotos. Por esta razón, las funciones críticas de supervisión y control del riego deben poder ejecutarse localmente, sin depender permanentemente de AWS.
+Con la nube pública se podrá concentrar la información, consultarla desde la aplicación móvil y contar con servicios administrados para procesar y almacenar los datos. También será posible aumentar los recursos a medida que el proyecto crezca.
 
-La nube pública permitirá centralizar la información, facilitar su consulta desde la aplicación móvil y disponer de servicios administrados para el procesamiento y almacenamiento de los datos. Además, permitirá ampliar los recursos conforme crezcan las necesidades del proyecto.
+Una solución puramente local queda descartada porque elevaría la carga de mantenimiento, respaldo y administración de la infraestructura. Una solución puramente en la nube también se descarta, ya que las operaciones que necesitan respuesta inmediata se verían comprometidas si se pierde la conexión.
 
-Se descarta una implementación exclusivamente local porque puede aumentar las tareas de mantenimiento, respaldo y administración de la infraestructura. También se descarta una implementación exclusivamente en la nube porque las operaciones que requieren respuesta inmediata podrían verse afectadas por la pérdida de conectividad.
-
-Por tanto, el modelo híbrido ofrece un equilibrio entre disponibilidad local, capacidad de procesamiento en la nube, seguridad y control de costos. Su implementación requerirá mecanismos de autenticación, cifrado de las comunicaciones, sincronización de datos y recuperación ante interrupciones.
-
+Por lo tanto, el modelo híbrido equilibra la disponibilidad local, la capacidad de cómputo de la nube, la seguridad y el control de costos. Para implementarlo se necesitarán mecanismos de autenticación, cifrado de las comunicaciones, sincronización de datos y recuperación ante cortes.
 
 ### 2.3 Diagrama de arquitectura Lab + Cloud
 
@@ -90,17 +88,16 @@ flowchart LR
     API -.->|"Configuración o umbrales autorizados"| GW
 ```
 
-arquitectura híbrida · borde + nube pública
-El control de riego ocurre en el borde; la nube recibe la telemetría y devuelve umbrales actualizados. El monitoreo, los logs y las alertas de gasto cubren toda la cuenta cloud.
-Flujos principales:
-Ascendente: el gateway envía telemetría a la nube cuando hay enlace; si no, la guarda en buffer y la sincroniza después.
-Descendente: la nube pública, umbrales y modelos actualizados al borde.
-Control local: el gateway activa las válvulas sin esperar a la nube.
-Consulta: el productor accede a datos e históricos mediante la API.
+Arquitectura híbrida · borde + nube pública.
+El riego se gobierna desde el borde; la nube recibe la telemetría y devuelve los umbrales actualizados. El monitoreo, los logs y las alertas de gasto abarcan toda la cuenta cloud.
 
+Flujos principales:
+- **Ascendente:** cuando hay enlace, el gateway manda la telemetría a la nube; si no lo hay, la retiene en un buffer y la sincroniza después.
+- **Descendente:** la nube pública envía al borde los umbrales y los modelos actualizados.
+- **Control local:** el gateway abre o cierra las válvulas sin esperar a la nube.
+- **Consulta:** el productor revisa los datos y el histórico a través de la API.
 
 ---
-
 ## 3. Estación 3 · Qué queda fuera de la nube pública (15 min)
  
 **Asignatura:** Infraestructura, Seguridad y Gestión de Riesgo en las TI  
