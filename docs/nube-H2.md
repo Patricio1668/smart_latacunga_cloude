@@ -275,11 +275,11 @@ El equipo de AgriSmart establece que la seguridad cloud será gestionada mediant
 
 Las responsabilidades deberán documentarse y revisarse cuando cambie el modelo cloud, el proveedor o la arquitectura del sistema.
 
-11. Gestión de incidentes y continuidad operativa
+## 12. Gestión de incidentes y continuidad operativa
 
 La gestión de incidentes permite establecer los pasos que debe seguir el equipo de AgriSmart cuando se presenta un problema de seguridad o una interrupción del servicio. Su objetivo es reducir los daños, proteger la información y recuperar el funcionamiento del sistema de forma segura.
 
-11.1. Flujo de respuesta ante incidentes
+## Flujo de respuesta ante incidentes
 
 El siguiente diagrama representa el procedimiento que deberá seguir el equipo ante un incidente de seguridad.
 
@@ -315,7 +315,7 @@ flowchart TD
 
 Interpretación: ante un incidente, el equipo deberá identificar el problema, contener los riesgos, proteger las credenciales cuando corresponda y recuperar la información si es necesario. Antes de dar por resuelto el incidente, deberá comprobar que el sistema funciona correctamente y documentar las acciones realizadas.
 
-## 12. Conclusiones para la Integración del H2
+## 13. Conclusiones para la Integración del H2
 
 1. **Predominio estratégico de PaaS en la nube pública:** En la capa Cloud (AWS), el modelo **PaaS** (Amazon RDS, API Gateway, Cognito, Secrets Manager, S3) es la opción técnica más adecuada para AgriSmart Latacunga porque maximiza la disponibilidad y la seguridad reduciendo al mínimo la carga administrativa del equipo docente y estudiantil, manteniéndose dentro del presupuesto de $85\text{ USD/mes}$.
 2. **Contenerización sobre IaaS y On-Premise para portabilidad:** El uso de contenedores Docker (sobre servidores HP en el nivel Fog y sobre instancias de cómputo en AWS) permite mantener una arquitectura basada en servicios y eventos (**ADR-002**) altamente portable sin caer en la complejidad operativa de un clúster de microservicios ni en el bloqueo de proveedor (*vendor lock-in*) en la lógica de negocio e inferencia de IA.
