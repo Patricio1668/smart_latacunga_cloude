@@ -1,17 +1,9 @@
 # Proyecto AgriSmart Latacunga — Entregable H2
 
 **Asignatura:** Computación en la Nube / Infraestructura, Seguridad y Gestión de Riesgo en las TI  
-**Proyecto:** Evaluación del impacto de una aplicación móvil con inteligencia artificial en la optimización de la calidad del suelo y la productividad agrícola en Latacunga  
+**Proyecto:** Evaluación del impacto de una aplicación móvil con inteligencia artificial en la optimización de la calidad del suelo y la productividad agrícola en Latacunga 
 
-## 1. Resumen Arquitectónico y Criterio de Clasificación
-
-La plataforma **AgriSmart Latacunga** implementa una arquitectura híbrida orientada a eventos **Edge–Fog–Cloud** con servicios hexagonales:
-
-1. **Nivel Edge (Parcela):** Compuesto por 40 nodos fijos ESP32 + LoRa y 4 kits portátiles que capturan datos edafológicos (pH, humedad, temperatura y NPK) cada 15 minutos. Incorpora estrategias de almacenamiento local (store-and-forward) y capacidades de inferencia ligera mediante TinyML para la detección de anomalías directamente en el terreno agrícola.
-2. **Nivel Fog (On-Premise en UTC / Parroquia 11 de Noviembre):** Soportado sobre los servidores HP existentes, ejecuta servicios contenerizados interconectados para operar de forma totalmente autónoma sin conexión a internet, garantizando un 0 % de pérdida de datos gracias a la persistencia local de series de tiempo.
-3. **Nivel Cloud (AWS y servicios externos):** Capa responsable de consolidar asíncronamente los datos del estudio cuasiexperimental que abarca a 240 agricultores durante los 12 meses de intervención. Aloja el entrenamiento de modelos de inteligencia artificial (Random Forest y XGBoost), la gestión de identidades y la exposición segura de APIs para la aplicación móvil offline-first en Flutter, el panel web de investigadores y los sistemas de aliados estratégicos como el INIAP y el GAD Latacunga.
----
-# ÍNDICE GENERAL — ENTREGABLE H2: AGRISMART LATACUNGA
+# ÍNDICE
 
 1. [Resumen Arquitectónico y Criterio de Clasificación](#1-resumen-arquitectónico-y-criterio-de-clasificación)
 2. [Tabla de Clasificación IaaS / PaaS / SaaS del Inventario](#2-tabla-de-clasificación-iaas--paas--saas-del-inventario)
@@ -34,6 +26,16 @@ La plataforma **AgriSmart Latacunga** implementa una arquitectura híbrida orien
    - [5.9. Resumen de controles de seguridad](#9-resumen-de-controles-de-seguridad)
    - [5.10. Acuerdo de responsabilidades de AgriSmart](#10-acuerdo-de-responsabilidades-de-agrismart)
 6. [Conclusiones para la Integración del H2](#5-conclusiones-para-la-integración-del-h2)
+
+## 1. Resumen Arquitectónico y Criterio de Clasificación
+
+La plataforma **AgriSmart Latacunga** implementa una arquitectura híbrida orientada a eventos **Edge–Fog–Cloud** con servicios hexagonales:
+
+1. **Nivel Edge (Parcela):** Compuesto por 40 nodos fijos ESP32 + LoRa y 4 kits portátiles que capturan datos edafológicos (pH, humedad, temperatura y NPK) cada 15 minutos. Incorpora estrategias de almacenamiento local (store-and-forward) y capacidades de inferencia ligera mediante TinyML para la detección de anomalías directamente en el terreno agrícola.
+2. **Nivel Fog (On-Premise en UTC / Parroquia 11 de Noviembre):** Soportado sobre los servidores HP existentes, ejecuta servicios contenerizados interconectados para operar de forma totalmente autónoma sin conexión a internet, garantizando un 0 % de pérdida de datos gracias a la persistencia local de series de tiempo.
+3. **Nivel Cloud (AWS y servicios externos):** Capa responsable de consolidar asíncronamente los datos del estudio cuasiexperimental que abarca a 240 agricultores durante los 12 meses de intervención. Aloja el entrenamiento de modelos de inteligencia artificial (Random Forest y XGBoost), la gestión de identidades y la exposición segura de APIs para la aplicación móvil offline-first en Flutter, el panel web de investigadores y los sistemas de aliados estratégicos como el INIAP y el GAD Latacunga.
+---
+
 
 ## 2. Tabla de Clasificación IaaS / PaaS / SaaS del Inventario
 
