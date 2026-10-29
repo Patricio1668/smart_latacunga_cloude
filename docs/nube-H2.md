@@ -283,29 +283,35 @@ La gestión de incidentes permite establecer los pasos que debe seguir el equipo
 
 El siguiente diagrama representa el procedimiento que deberá seguir el equipo ante un incidente de seguridad.
 
+```mermaid
 flowchart TD
     A(["Inicio: detección de un incidente"]) --> B["Identificar y evaluar el problema"]
     B --> C{"¿Existe un riesgo para los datos o el sistema?"}
+
     C -->|Sí| D["Contener el incidente y restringir accesos"]
     C -->|No| E["Registrar y analizar el problema"]
+
     D --> F["Proteger los datos y cambiar credenciales comprometidas"]
     F --> G{"¿Se requiere recuperar información?"}
+
     G -->|Sí| H["Restaurar desde una copia de seguridad verificada"]
     G -->|No| I["Corregir la causa del incidente"]
+
     H --> I
     I --> J["Verificar el funcionamiento y la seguridad"]
     J --> K["Documentar el incidente y las medidas aplicadas"]
+
     E --> K
     K --> L(["Fin: sistema revisado y acciones registradas"])
 
     classDef inicio fill:#d1fae5,stroke:#059669,color:#064e3b
     classDef proceso fill:#dbeafe,stroke:#2563eb,color:#1e3a8a
     classDef decision fill:#fef3c7,stroke:#d97706,color:#78350f
-    classDef fin fill:#d1fae5,stroke:#059669,color:#064e3b
 
     class A,L inicio
     class B,D,E,F,H,I,J,K proceso
     class C,G decision
+```
 
 Interpretación: ante un incidente, el equipo deberá identificar el problema, contener los riesgos, proteger las credenciales cuando corresponda y recuperar la información si es necesario. Antes de dar por resuelto el incidente, deberá comprobar que el sistema funciona correctamente y documentar las acciones realizadas.
 
