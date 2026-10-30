@@ -10,6 +10,7 @@ Plataforma IoT, Inteligencia Artificial y Computación Edge-Fog-Cloud diseñada 
 - [Descripción General](#-descripción-general)
 - [Arquitectura del Sistema](#-arquitectura-del-sistema)
 - [Estado de la Arquitectura del Piloto](#-estado-de-la-arquitectura-del-piloto)
+- [Flujo de Datos y Operación sin Conexión](#-flujo-de-datos-y-operación-sin-conexión)
 - [Módulos del Proyecto](#-módulos-del-proyecto)
 - [Tecnologías Utilizadas](#-tecnologías-utilizadas)
 - [Requisitos Previos](#-requisitos-previos)
@@ -51,6 +52,22 @@ Este resumen facilita identificar las decisiones descritas para el piloto y dón
 **Puntos por armonizar:** H2 presenta API Gateway como elegido, mientras que H3 indica que no se usa en el piloto y describe un ALB delante de Fargate. También difieren en observabilidad: H2 describe OpenTelemetry, Prometheus y Grafana; H3 menciona CloudWatch y OpenTelemetry. Conviene acordar estas decisiones y actualizar los documentos antes de implementarlas o presentarlas como definitivas.
 
 El [H2](docs/nube-H2.md) compara alternativas y desarrolla responsabilidades de seguridad; el [H3](docs/nube-H3.md) delimita el modelo de implementación del piloto. Cuando ambos documentos difieran, la decisión debe confirmarse con el equipo en lugar de asumir que una alternativa ya está aprobada.
+
+---
+
+## 🔄 Flujo de Datos y Operación sin Conexión
+
+El diseño busca que la captura local no dependa de una conexión permanente a internet. El flujo previsto para una lectura es:
+
+1. **Captura:** el nodo ESP32 registra las mediciones del suelo y las transmite por LoRaWAN.
+2. **Recepción local:** ChirpStack recibe los mensajes y los publica en MQTT; los servicios de ingesta los guardan en TimescaleDB y procesan las alertas locales.
+3. **Almacenamiento durante cortes:** si no hay conexión con internet, las lecturas permanecen almacenadas en el entorno fog hasta que se pueda sincronizar.
+4. **Sincronización:** cuando vuelve la conexión, el sincronizador envía las lecturas a la API por HTTPS. La API valida los datos y los registra en PostgreSQL en RDS.
+5. **Consulta móvil:** la aplicación Flutter conserva información en SQLite para permitir consultas básicas sin conexión y sincroniza cuando la red está disponible.
+
+Para reducir duplicados al reintentar el envío de lotes, la arquitectura documenta identificadores de lectura basados en el dispositivo y una secuencia, junto con una restricción de unicidad en la base de datos. El fog se comunica con RDS a través de la API, no mediante una conexión directa.
+
+Este flujo describe el diseño planteado para el piloto; su operación real depende de la implementación y de las pruebas de sincronización y recuperación ante cortes. Para más detalle, consulta la [arquitectura y decisiones técnicas](docs/arquitectura/Arquitectura%20y%20decisiones%20t%C3%A9cnicas.md) y el [H3](docs/nube-H3.md).
 
 ---
 
