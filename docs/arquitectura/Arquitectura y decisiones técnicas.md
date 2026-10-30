@@ -131,11 +131,11 @@ Menos control del host: Fargate no permite acceder directamente al servidor dond
 
 ### Seguridad mínima del piloto
 
-- **Usuarios:** Cognito con OAuth 2.1/OIDC y MFA para administradores.
-- **Secretos:** Secrets Manager con rotación; nada de claves en Git.
-- **Datos:** cifrado en reposo con KMS y en tránsito con TLS 1.2+; mTLS entre fog y API.
-- **Accesos:** roles IAM de mínimo privilegio y CloudTrail para auditoría.
-- **Base de datos:** subred privada, backups de 7 días y snapshots en hitos.
+- *Usuarios:* autenticación mediante Cognito con OAuth 2.1/OIDC y uso de MFA para las cuentas de administración.
+- *Secretos:* almacenamiento de credenciales en Secrets Manager con renovación automática, evitando guardar contraseñas o claves en Git.
+- *Datos:* protección de la información mediante cifrado KMS en reposo y TLS 1.2 o superior durante la transmisión; se utiliza mTLS para la comunicación entre fog y API.
+- *Accesos:* asignación de permisos IAM limitados a las funciones necesarias y registro de actividades mediante CloudTrail para su revisión.
+- *Base de datos:* implementación en una subred privada, con copias de seguridad conservadas durante 7 días y snapshots en momentos importantes del proyecto.
 
 ## 6. Matriz de decisión y costo
 
