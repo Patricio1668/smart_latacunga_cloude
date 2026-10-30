@@ -229,16 +229,16 @@ Este documento no reemplaza el trabajo de los otros equipos: fija los nombres y 
 
 ## 10. Conclusión
 
-El piloto usa **ECS Fargate** para la API y el BFF, **PostgreSQL en RDS** para los datos consolidados y un **ALB** como entrada pública. El fog sigue siendo la garantía de captura y alerta cuando no hay internet. El costo completo es ≈ **78 USD/mes** con contingencia, dentro del presupuesto de ≈ 83 USD/mes.
+El piloto utiliza ECS Fargate para ejecutar la API y el BFF, mientras que PostgreSQL en RDS se encarga de almacenar la información centralizada. Además, se utiliza un ALB como punto de entrada público. El fog continúa funcionando como respaldo para recopilar información y generar alertas cuando no existe conexión a internet. El costo total aproximado es de 78 USD mensuales, incluyendo un valor adicional para imprevistos, manteniéndose dentro del presupuesto disponible de 83 USD al mes.
 
-La decisión es defendible porque:
+La elección de esta arquitectura se justifica por las siguientes razones:
 
-- reduce la operación que asumen los estudiantes;
-- conserva la portabilidad de Docker y PostgreSQL;
-- mantiene la base de datos fuera de internet;
-- respeta los ADR del proyecto;
-- tiene un plan B claro: EC2, Lambda, Multi-AZ o API Gateway si cambian las condiciones.
-
+- Disminuye las tareas de administración y mantenimiento que deben realizar los estudiantes.
+- Permite conservar el uso de Docker y PostgreSQL, facilitando su traslado a otros entornos.
+- Protege la base de datos al evitar que tenga acceso directo desde internet.
+- Se mantiene de acuerdo con las decisiones técnicas definidas en los ADR del proyecto.
+- Dispone de otras alternativas, como EC2, Lambda, Multi-AZ o API Gateway, que pueden utilizarse si las necesidades del proyecto cambian.
+- 
 ### Próximos pasos
 
 1. Validar costos con la calculadora de AWS y capturar la evidencia.
