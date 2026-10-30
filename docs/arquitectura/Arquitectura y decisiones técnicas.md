@@ -65,9 +65,11 @@ La arquitectura tiene cuatro zonas. Cada una hace una cosa distinta y no se mezc
 
 ### Qué se sacrifica en la API
 
-- **Costo medio:** Fargate cuesta más que una EC2 pequeña, pero ahorra horas de operación. Si el presupuesto se ajusta, la misma imagen corre en EC2 t3.small.
-- **Arranque de tarea:** una tarea nueva tarda decenas de segundos, no milisegundos. No afecta al piloto porque el ALB mantiene una tarea caliente y el autoscaling va de 1 a 2.
-- **Menos control del host:** no hay acceso al servidor. Se compensa con logs, métricas y trazas en CloudWatch/OpenTelemetry.
+Costo medio: Fargate tiene un costo mayor que una instancia EC2 pequeña, pero permite ahorrar tiempo y trabajo en su administración. Si el presupuesto es limitado, se puede utilizar la misma imagen en una instancia EC2 t3.small.
+
+Arranque de tarea: Cuando se crea una nueva tarea, esta tarda algunas decenas de segundos en iniciarse, no milisegundos. Esto no representa un problema para el piloto, ya que el ALB mantiene una tarea activa y el autoscaling permite aumentar de 1 a 2 tareas.
+
+Menos control del host: Fargate no permite acceder directamente al servidor donde se ejecuta la aplicación. Sin embargo, esto se puede compensar mediante el uso de logs, métricas y trazas con CloudWatch/OpenTelemetry.
 
 **Costo de esta decisión:** ≈ **19,80 USD/mes** (0,5 vCPU + 1 GB, promedio 1,1 tareas). El ALB y la IP pública se detallan en la sección 6.
 
