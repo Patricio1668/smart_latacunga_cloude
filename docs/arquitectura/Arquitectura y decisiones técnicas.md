@@ -121,11 +121,13 @@ Menos control del host: Fargate no permite acceder directamente al servidor dond
 
 **Figura 2.** *Despliegue: ALB público, Fargate con IP pública restringida y RDS en subred privada.*
 
-### El flujo de red, en 3 pasos
+### El funcionamiento de la red en 3 pasos
 
-1. **Internet → ALB (443):** el ALB termina TLS con un certificado de ACM.
-2. **ALB → Fargate (8080):** el security group de Fargate solo acepta tráfico del ALB; no hay puertos abiertos a internet.
-3. **Fargate → RDS (5432):** el security group de RDS solo acepta tráfico de Fargate; RDS no tiene IP pública.
+1. **Internet → ALB (443):** el balanceador de carga recibe las conexiones seguras mediante HTTPS y utiliza un certificado de ACM para gestionar el cifrado TLS.
+
+2. **ALB → Fargate (8080):** el ALB envía las solicitudes a los contenedores de Fargate. Su grupo de seguridad permite únicamente el tráfico proveniente del ALB, evitando el acceso directo desde Internet.
+
+3. **Fargate → RDS (5432):** los contenedores de Fargate se conectan a la base de datos RDS. El grupo de seguridad de RDS solo permite conexiones desde Fargate y, al no contar con una IP pública, la base de datos permanece protegida del acceso externo.
 
 ### Seguridad mínima del piloto
 
